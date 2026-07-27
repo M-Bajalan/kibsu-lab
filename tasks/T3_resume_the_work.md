@@ -36,4 +36,13 @@ python tools/check_task.py T3    # must exit 0
 fresh reset-and-redo -- and that `check_task.py T1`'s own independent recomputation
 passes on the finished result.
 
+## A note on the `task:` field
+
+T3 has no `task:` field of its own -- `check_task.py T3` never looks for a literal
+`task: T3` line, only for the marker's ancestry and for `check_T1()` passing. Finishing
+this task IS finishing T1, so the entry that closes it out is the same `task: T1` entry
+`tasks/T1_add_kpi.md` asks for. Do not invent a `task: T3` line: no checker reads one,
+and `skills/change-log/SKILL.md` reserves the field strictly for entries an actual gate
+checks against.
+
 MARKER_COMMIT: fa64590aa7233a2bf18fb647cc68c6414f54b75e

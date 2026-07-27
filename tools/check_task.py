@@ -55,19 +55,43 @@ def load_csv(path):
         return list(csv.DictReader(f))
 
 
-def changelog_top_entry_mentions(token):
+def _changelog_top_entry_lines():
     changelog = REPO_ROOT / "docs" / "CHANGELOG.md"
     if not changelog.is_file():
-        return False
+        return None
     text = changelog.read_text(encoding="utf-8")
     # top entry = from the first "## [" header to the second (or EOF) -- CHANGELOG.md is
     # prepend-style (newest first), see skills/change-log/SKILL.md.
     lines = text.split("\n")
     starts = [i for i, ln in enumerate(lines) if ln.startswith("## [")]
     if not starts:
+        return None
+    return lines[starts[0]:(starts[1] if len(starts) > 1 else len(lines))]
+
+
+def changelog_top_entry_mentions(token):
+    """Substring match over the newest entry's prose. NOT used for governance gating --
+    kept as a general-purpose helper. An entry describing a fix for T2 naturally contains
+    the substring "T2", so this alone cannot prove a task was actually logged done; see
+    changelog_top_entry_has_task_field() for the check that gates T1/T2."""
+    top = _changelog_top_entry_lines()
+    if top is None:
         return False
-    top = lines[starts[0]:(starts[1] if len(starts) > 1 else len(lines))]
     return token.lower() in "\n".join(top).lower()
+
+
+def changelog_top_entry_has_task_field(token):
+    """Exact-line check: the newest CHANGELOG entry must carry a literal `task: <ID>`
+    field, reserved per skills/change-log/SKILL.md strictly for the entry that closes out
+    that task. Unlike changelog_top_entry_mentions(), prose that merely discusses the task
+    (e.g. a later fix round's writeup, which will legitimately say "T1" and "T2" in plain
+    words) does not satisfy this -- only the reserved field line does. This is the
+    governance primitive T1 and T2 actually gate on."""
+    top = _changelog_top_entry_lines()
+    if top is None:
+        return False
+    target = "task: %s" % token
+    return any(ln.strip() == target for ln in top)
 
 
 # --------------------------------------------------------------------------- P1 selftest -----
@@ -166,10 +190,11 @@ def check_T1():
             print("  -", m)
         return 1
 
-    if not changelog_top_entry_mentions("T1"):
+    if not changelog_top_entry_has_task_field("T1"):
         print("T1 FAIL: computation is correct, but docs/CHANGELOG.md's newest entry does not "
-              "mention T1 -- governance is part of done. Log the change (skills/change-log/SKILL.md) "
-              "before calling this task finished.")
+              "carry a literal `task: T1` line -- governance is part of done. Log the change "
+              "(skills/change-log/SKILL.md) before calling this task finished. Talking about "
+              "T1 in the entry's prose does not count; only the reserved field does.")
         return 1
 
     print("T1 PASS: rolling 3-month distributor share matches an independent recomputation "
@@ -252,12 +277,16 @@ def check_T2():
     # governance check #2: the check above is permanently satisfied the moment the learning
     # file is committed, so on its own it can never fail on any clone of this repo's history
     # -- it is not a negative control. This mirrors T1's changelog gate instead: a genuinely
-    # failable proof that the fix was actually logged, not just made.
-    if not changelog_top_entry_mentions("T2"):
+    # failable proof that the fix was actually logged, not just made. Uses the exact-line
+    # `task: T2` field, not a substring match -- a substring match is pre-satisfied by any
+    # CHANGELOG entry that merely talks about T2, including the entry that documents this
+    # very fix (see skills/change-log/SKILL.md's "task: <ID> field" section).
+    if not changelog_top_entry_has_task_field("T2"):
         print("T2 FAIL: reconcile.py exits 0 and the independent recomputation matches, but "
-              "docs/CHANGELOG.md's newest entry does not mention T2 -- governance is part of "
-              "done. Log the change (skills/change-log/SKILL.md) before calling this task "
-              "finished.")
+              "docs/CHANGELOG.md's newest entry does not carry a literal `task: T2` line -- "
+              "governance is part of done. Log the change (skills/change-log/SKILL.md) before "
+              "calling this task finished. Talking about T2 in the entry's prose does not "
+              "count; only the reserved field does.")
         return 1
 
     print("T2 PASS: reconcile.py exits 0, an independent batch-dedupe recomputation matches "

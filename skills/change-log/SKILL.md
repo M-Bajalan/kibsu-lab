@@ -43,10 +43,32 @@ header, above every existing entry (newest-first):
 - <item -- with a path>
 ```
 
-Use only the subsections you need. The title must say what changed in plain words --
-`check_task.py T1` reads this file's newest entry as evidence a task actually
-finished, so a vague title ("misc updates") fails that check even when the code is
-correct.
+Use only the subsections you need. The title should say what changed in plain words.
+
+### 2a. The `task: <ID>` field -- reserved for task-completion entries only
+
+If this entry is the one that closes out a `tasks/*.md` brief (T1, T2, ...), add a
+literal line directly under the header, before any `###` subsection:
+
+```md
+## [YYYY-MM-DD HH:MM] - <one-line title>
+task: T1
+### Changed
+- <item -- with a path>
+```
+
+`tools/check_task.py`'s governance gates look for an **exact line** reading `task: T1`
+(or `task: T2`) -- not for the word T1 anywhere in the entry. That distinction is
+load-bearing: an entry that merely *describes* a fix or a review round naturally
+contains those tokens in prose, and a substring match would let that prose silently
+satisfy the gate without the task ever actually being logged as done. It happened once
+in this repo -- see the CHANGELOG entry titled "Round 2" for the fix.
+
+**Reserve this field strictly.** An entry that is not closing out a task -- a doc fix, a
+build phase, a review round, a dependency bump, even one whose prose discusses T1 or T2
+at length -- must not include a `task: <ID>` line. The field means one thing only: an
+agent is claiming, right now, that this specific task is done. Do not use it for
+anything else, even when it would be convenient.
 
 ### 3. Learnings -- whenever you learn something reusable
 

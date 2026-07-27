@@ -35,8 +35,11 @@ reports/rolling_3mo_share.csv
 ## Governance is part of done
 
 Once the numbers check out, log the change per `skills/change-log/SKILL.md`: prepend an
-entry to `docs/CHANGELOG.md` whose title mentions **T1**. `check_task.py T1` checks for
-this explicitly -- a correct computation with no log entry still fails the check.
+entry to `docs/CHANGELOG.md` that carries a literal `task: T1` line directly under the
+header (see the skill's "task: <ID> field" section). `check_task.py T1` checks for that
+exact line, not for the word T1 appearing anywhere in the entry -- a correct computation
+with no `task: T1` line still fails the check, and so does an entry that only talks
+about T1 without being the one that actually closes it out.
 
 ## Accept
 

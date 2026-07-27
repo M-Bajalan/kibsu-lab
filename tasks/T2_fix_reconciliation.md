@@ -32,6 +32,14 @@ The dedupe convention is already recorded in
 (check batch duplication FIRST, not join logic) -- and if you find anything about the
 fix worth adding for the next agent, extend that file rather than starting a new one.
 
+## Governance is part of done
+
+Once `reconcile.py` exits 0 and the fix is real, log the change per
+`skills/change-log/SKILL.md`: prepend an entry to `docs/CHANGELOG.md` that carries a
+literal `task: T2` line directly under the header (see the skill's "task: <ID> field"
+section). `check_task.py T2` checks for that exact line -- an entry that merely
+discusses T2 in prose, without being the one that closes it out, does not count.
+
 ## Accept
 
 ```
@@ -39,9 +47,11 @@ python tools/reconcile.py     # must now exit 0
 python tools/check_task.py T2 # must exit 0
 ```
 
-`check_task.py T2` does three independent things, not just re-running `reconcile.py`:
+`check_task.py T2` does four independent things, not just re-running `reconcile.py`:
 it recomputes the batch-deduped totals itself, straight from `data/transactions.csv`,
 and confirms they match `data/monthly_summary.csv`; it confirms the **undeduped** total
-genuinely disagreed in the first place (proving there was a real gap, not a no-op);
-and it confirms the learning file exists and is non-empty. A `reconcile.py` that always
-exits 0 will fail the second and third of these, not just the first.
+genuinely disagreed in the first place (proving there was a real gap, not a no-op); it
+confirms the learning file exists and is non-empty; and it confirms
+`docs/CHANGELOG.md`'s newest entry carries a literal `task: T2` line. A `reconcile.py`
+that always exits 0 will fail the second and third of these, not just the first -- and
+a fix that never got logged will fail the fourth.

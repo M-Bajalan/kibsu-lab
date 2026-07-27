@@ -8,6 +8,40 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-07-28 01:10] - Round 2: exact-line task field replaces substring governance gates
+### Fixed
+- `tools/check_task.py` T1 and T2 governance gates: the substring check
+  (`changelog_top_entry_mentions`) was pre-satisfied by the very CHANGELOG entry that
+  documented the F3 fix, since that entry's prose talks about both tasks in plain
+  words -- and the same defect turned out to affect T1's gate too, as collateral from
+  the same commit (a regression, since T1's gate had been verified genuinely failable
+  at an earlier commit). Replaced with `changelog_top_entry_has_task_field`, which
+  looks for an exact standalone line reading `task: T1` or `task: T2` -- a field now
+  reserved exclusively for the entry that closes out that specific task. Documented
+  the reservation in `skills/change-log/SKILL.md` and in all three `tasks/*.md`
+  briefs. Old `changelog_top_entry_mentions` kept as a general-purpose helper, no
+  longer used for gating.
+### Added
+- The missing changelog entry for commit `6e814db` (below) -- its own prose is safe
+  to mention T1/T2 freely under the new primitive, unlike under the old one.
+### Note
+- CHECK-AFTER-WRITE (new law, this round): the governance re-run happens strictly
+  after this entry is written and committed, against a fresh clone. Results are
+  deliberately not asserted in this entry -- an entry that recorded its own re-run's
+  outcome would repeat the exact reflexivity bug this round exists to fix. See the
+  commit this entry ships in, and the session log, for what the re-run found.
+
+## [2026-07-27 23:50] - Cite filed upstream issue kibsu#2
+### Changed
+- `README.md`'s baseline section and `docs/upstream-issue-draft.md`'s status header
+  updated to cite the now-filed public issue
+  https://github.com/M-Bajalan/kibsu/issues/2, replacing the earlier not-yet-filed
+  placeholder language.
+### Why
+- Backfilled here because this changelog is the audit trail kibsu's own report
+  checks against -- a commit (`6e814db`) that shipped without an entry was a gap in
+  the record it's supposed to prove.
+
 ## [2026-07-27 23:10] - L-GATE fixes: independent verifier findings (F1-F6)
 ### Fixed
 - `tools/check_task.py` T2 (F3): the learning-file-exists check is permanently
