@@ -1,5 +1,7 @@
 ---
 name: change-log
+type: skill
+status: active
 genre: procedure
 description: >
   The log chain for this repository: what to write, where, and when, after any

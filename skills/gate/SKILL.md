@@ -1,5 +1,7 @@
 ---
 name: gate
+type: skill
+status: active
 genre: procedure
 description: >
   What may not happen without a green gate in this repository. Names the

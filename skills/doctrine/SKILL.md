@@ -1,5 +1,7 @@
 ---
 name: doctrine
+type: skill
+status: active
 genre: doctrine
 description: >
   How to think here, not what to do. This is judgment guidance, not a
