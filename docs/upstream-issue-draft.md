@@ -2,12 +2,12 @@
 type: upstream-issue-draft
 ---
 
-# Draft: kibsu issue -- existence-mode history backtest returns no verdict when `index_path` lives outside `docs_root`
+# kibsu issue -- existence-mode history backtest returns no verdict when `index_path` lives outside `docs_root`
 
-**Status: NOT YET FILED.** This is a reproduction and a proposed issue write-up, prepared so a
-human can review it and file it on the real, public `kibsu` repository. Until it is actually
-filed there and has an issue number, nothing in this repo should claim it "was filed upstream" --
-see `README.md`'s baseline section, which now links here instead of making that claim.
+**Status: FILED as [kibsu#2](https://github.com/M-Bajalan/kibsu/issues/2).** The root cause below
+was verified directly against kibsu's own source before filing, and the diagnosis held. This
+file stays as the reproduction record; `README.md`'s baseline section cites the issue number
+directly rather than re-describing the gap.
 
 ## Reproduction
 
@@ -86,8 +86,8 @@ this finding; it just means no index exists yet.)
 > Environment: kibsu 0.1.0 from PyPI, reproduced against a `kibsu-lab` clone (a public test
 > fixture repo) with 8+ real commits and no shallow clone involved.
 
-## Who files it
+## Filed
 
-Fable/the verifier owns the actual filing on the public kibsu repository and will record the
-resulting issue number back to this repo once filed -- see `_relay_opus-to-fable.md` in the
-governing workspace.
+Filed as [kibsu#2](https://github.com/M-Bajalan/kibsu/issues/2) by Fable/the verifier on the
+public kibsu repository. `README.md`'s baseline section cites it as "known kibsu limitation,
+filed as kibsu#2."

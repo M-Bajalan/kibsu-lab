@@ -83,11 +83,11 @@ python -m kibsu report .
 `exit 3` -- honest, by contract: one check genuinely could not run, so the report
 says so instead of rounding up to "5 of 5."
 
-That gap looks like a kibsu limitation in existence-mode history backtesting when `index_path`
-lives outside `docs_root` (this repo's own `.kibsu.json` sets exactly that shape, and so does
-kibsu's own default config). The reproduction and a proposed issue write-up are prepared at
-`docs/upstream-issue-draft.md` -- **it has not been filed on the public kibsu repo yet**; this
-repo does not claim a filing it hasn't made.
+Known kibsu limitation, filed as [kibsu#2](https://github.com/M-Bajalan/kibsu/issues/2) --
+existence-mode history backtesting scopes "touched" files to the index file's own directory
+rather than `docs_root`/`skills_dir`, which breaks even on kibsu's own default config shape
+(this repo's `.kibsu.json` hits it too). Full reproduction and the issue write-up are at
+`docs/upstream-issue-draft.md`.
 
 ```
 python -m kibsu audit .
