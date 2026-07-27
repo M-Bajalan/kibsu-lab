@@ -239,14 +239,30 @@ def check_T2():
               "the fix to prove. This points at a data generation problem, not a real pass.")
         return 1
 
+    # governance check #1: the learning file must exist and be non-empty. This is what is
+    # ACTUALLY checked here -- existence, not "consultation" (whether an agent read it is
+    # not observable from outside, so the message below claims exactly what this line
+    # tests and nothing more).
     learning = REPO_ROOT / "docs" / "memory" / "learnings" / "reconciliation-check-batches-first.md"
     if not learning.is_file() or not learning.read_text(encoding="utf-8").strip():
-        print("T2 FAIL: %s is missing or empty -- the learning must exist and be consulted "
+        print("T2 FAIL: %s is missing or empty -- the learning must exist and be non-empty "
               "per skills/change-log/SKILL.md." % learning)
         return 1
 
+    # governance check #2: the check above is permanently satisfied the moment the learning
+    # file is committed, so on its own it can never fail on any clone of this repo's history
+    # -- it is not a negative control. This mirrors T1's changelog gate instead: a genuinely
+    # failable proof that the fix was actually logged, not just made.
+    if not changelog_top_entry_mentions("T2"):
+        print("T2 FAIL: reconcile.py exits 0 and the independent recomputation matches, but "
+              "docs/CHANGELOG.md's newest entry does not mention T2 -- governance is part of "
+              "done. Log the change (skills/change-log/SKILL.md) before calling this task "
+              "finished.")
+        return 1
+
     print("T2 PASS: reconcile.py exits 0, an independent batch-dedupe recomputation matches "
-          "monthly_summary.csv, and the naive total genuinely disagreed (real fix, not a fudge).")
+          "monthly_summary.csv, the naive total genuinely disagreed (real fix, not a fudge), "
+          "and the change was logged.")
     return 0
 
 
@@ -272,7 +288,9 @@ def check_T3():
     code, _, _ = run(["git", "merge-base", "--is-ancestor", marker, "HEAD"])
     if code != 0:
         print("T3 FAIL: commit %s (the half-done T1 work on task/T1-in-progress) is NOT an "
-              "ancestor of HEAD -- this looks like a restart, not a continuation." % marker)
+              "ancestor of HEAD -- the continuation branch has not been checked out here yet. "
+              "Run `git checkout task/T1-in-progress` (or merge it into your branch) before "
+              "resuming, then re-run this checker." % marker)
         return 1
 
     t1_result = check_T1()
