@@ -20,6 +20,13 @@ Open `docs/STATE.md`. Find the row for the track you touched (`DATA`, `REPORTING
 `RECONCILIATION`, `TASKS`, or a new one you're adding). Update its `Next action`
 cell and its `Last touched` date. Do not leave a stale next action after finishing it.
 
+```bash
+git diff -- docs/STATE.md
+```
+
+confirms the row actually changed before you move on -- an empty diff here means you
+forgot this step, not that nothing needed updating.
+
 ### 2. `docs/CHANGELOG.md` -- always, when something shipped
 
 Prepend a new entry at the **top** of `docs/CHANGELOG.md`, directly under the file's
@@ -57,13 +64,13 @@ learning file rather than duplicating it when the lesson is the same one, restat
 Run the repo's own checkers, bare, never through a pipe (a pipe swaps the exit code
 you're checking for the exit code of whatever it was piped into):
 
-```
+```bash
 python tools/check_task.py <TASK>
+echo $?
 ```
 
-`echo $?` (or `echo %ERRORLEVEL%` on Windows) immediately after, to confirm the exit
-code you're about to report is the one that actually happened -- not the one you
-expect.
+Read the printed exit code immediately after -- not the one you expect -- to confirm
+the code you're about to report is the one that actually happened.
 
 ### 5. Report format
 
