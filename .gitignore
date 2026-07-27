@@ -1,0 +1,11 @@
+# Generated data — the shipped artifact is tools/generate_data.py, never the data itself.
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# kibsu working state (wired in at L1)
+.kibsu/

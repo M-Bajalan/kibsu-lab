@@ -1,0 +1,7 @@
+{
+  "docs_root": "docs",
+  "skills_dir": "skills",
+  "memory_root": "docs/memory",
+  "index_path": ".kibsu/index.json",
+  "gates": []
+}
