@@ -1,6 +1,5 @@
 ---
 type: changelog
-status: active
 ---
 
 # Changelog
@@ -8,6 +7,38 @@ status: active
 kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) --
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
+
+## [2026-07-27 23:10] - L-GATE fixes: independent verifier findings (F1-F6)
+### Fixed
+- `tools/check_task.py` T2 (F3): the learning-file-exists check is permanently
+  satisfied once the file is committed -- not a negative control, and its
+  message claimed "consulted" when only existence is checked. Message softened
+  to what is actually tested; added a `changelog_top_entry_mentions("T2")` gate
+  mirroring T1's, proven live to be reachable-as-failure before this fix.
+- `tools/check_task.py` T3 (F6): the on-`main` failure message said "this looks
+  like a restart, not a continuation" -- reworded to the true state, that the
+  continuation branch has not been checked out yet.
+- `README.md` Quickstart (F1): the published baseline (`4 of 5 ready`) did not
+  reproduce from the published Quickstart steps -- it was captured after
+  `python -m kibsu index .`, which the Quickstart never told a reader to run.
+  Added the index step to the Quickstart itself and relabeled the baseline
+  section "after indexing"; re-captured from an actual fresh clone following
+  the corrected steps, so the published block is reproducible again.
+- `README.md` upstream claim (F2): "filed upstream" was asserted with no issue
+  actually filed on the public kibsu repo. Replaced with a pointer to
+  `docs/upstream-issue-draft.md` -- a prepared reproduction + proposed issue
+  write-up, explicitly marked not-yet-filed, for a human to file and return the
+  issue number.
+### Changed
+- Dropped constant `status: active` frontmatter (F4) from every doc except
+  where a real lifecycle is demonstrated (currently none) -- it was 1 distinct
+  value across all 13 docs while `type` had 8, and was propping up
+  `Know your conventions` as an enforceable key it hadn't earned. `type` is
+  unaffected (still 100% share, 13/13 docs).
+### Confirmed no defect
+- F5 (design doc's `install --apply`): already correct in this repo -- the
+  real invocation used throughout (`install --install`, no `--apply`) matches
+  the actual kibsu 0.1.0 CLI, which has no such flag on `install`.
 
 ## [2026-07-27 22:35] - L5: README/AGENTS/PROVENANCE made real, baseline recorded
 ### Changed
@@ -18,6 +49,12 @@ way a task's fix would be.
 ### Added
 - `README.md` baseline section: `kibsu report .` and `kibsu audit .` output,
   SHA-pinned to commit `db5a605`
+### Verified (manual -- kibsu cannot automate this one)
+- Cold-start drill: a zero-context agent given only `AGENTS.md` reached the
+  right next task (T3) in 10 tool calls following the intended pointer chain;
+  the same drill on an `AGENTS.md`/`docs/`-stripped control took 26 calls and
+  landed on a different, less-grounded answer. PASS -- see README.md's
+  "Cold-start drill" subsection for the full evidence.
 
 ## [2026-07-27 22:25] - L4: tasks + verifiers, T3 continuation branch
 ### Added

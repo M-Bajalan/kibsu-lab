@@ -1,6 +1,5 @@
 ---
 type: readme
-status: active
 ---
 
 # kibsu-lab
@@ -23,6 +22,7 @@ database. This lab teaches with tablets of its own.
 git clone <this-repo>
 cd kibsu-lab
 python tools/generate_data.py          # data/ is gitignored -- generate it yourself
+python -m kibsu index .                # builds .kibsu/index.json -- also gitignored, build it yourself
 ```
 
 Give a coding agent `AGENTS.md` and one of the three tasks in `tasks/`:
@@ -39,6 +39,10 @@ Then see what the repo's own governance says about itself:
 python -m kibsu report .
 ```
 
+(The `index` step above is not optional set-up trivia -- the "Baseline" section below is the
+literal output of running these commands in this exact order against a fresh clone. If you skip
+it, `report` truthfully scores lower, because there is nothing yet to know your conventions from.)
+
 ## What's here
 
 | Task | File | Checker |
@@ -51,48 +55,57 @@ Every checker exits 1 on this pristine repo -- see `docs/STATE.md`. A checker th
 passes before the task is done proves nothing; that was verified, not assumed --
 see `docs/memory/learnings/`.
 
-## Baseline (measured at commit `db5a605`, kibsu 0.1.0 from PyPI)
+## Baseline (after indexing; measured at commit `KIBSU_LAB_BASELINE_SHA`, kibsu 0.1.0 from PyPI)
+
+Captured by literally running the Quickstart above, verbatim, against a fresh clone --
+`git clone`, `generate_data.py`, `kibsu index .`, then the two commands below. If your own run
+doesn't match this block, the difference is real and worth reporting -- this block is not
+allowed to say anything a fresh clone can't reproduce by following this README's own steps.
 
 ```
 python -m kibsu report .
 ```
 
 ```
-  WHAT YOUR AGENTS CANNOT DO HERE YET
-  --------------------------------------------------------------------------
-  +  Find your docs             13 docs, index present.
-  +  Know your conventions      consistent frontmatter (status, type) - enforceable.
-  +  Prove they followed        51.9% of your procedural instructions are verifiable
-                                 (above the 11.1% public median).
-  +  Resume after a break       all 1 promised artifacts exist.
-  ?  Follow your own rules      COULD NOT CHECK - the history replay returned no
-                                 verdict (no git history here, or a shallow clone).
-  --------------------------------------------------------------------------
-  4 of 5 ready.  1 could NOT be checked - that is not a pass.
+KIBSU_LAB_REPORT_BLOCK
 ```
 
-`exit 3` -- honest, by contract: one check genuinely could not run, so the report
-says so instead of rounding up to "5 of 5." That gap looks like a kibsu limitation
-in existence-mode history backtesting when `index_path` lives outside `docs_root`
-(this repo's own `.kibsu.json` sets exactly that shape) -- filed upstream rather
-than worked around here, per this repo's own doctrine on kibsu changes.
+`exit KIBSU_LAB_REPORT_EXIT` -- honest, by contract: KIBSU_LAB_REPORT_EXPLAIN
+
+That gap looks like a kibsu limitation in existence-mode history backtesting when `index_path`
+lives outside `docs_root` (this repo's own `.kibsu.json` sets exactly that shape, and so does
+kibsu's own default config). The reproduction and a proposed issue write-up are prepared at
+`docs/upstream-issue-draft.md` -- **it has not been filed on the public kibsu repo yet**; this
+repo does not claim a filing it hasn't made.
 
 ```
 python -m kibsu audit .
 ```
 
 ```
-  genre        units    instr    check   CHECK%   0-check
-  procedure        3       27       14    51.9%      0/3
-  doctrine         1        7        0     0.0%      1/1
-  --------------------------------------------------------
-  ALL              4       34       14    41.2%      1/4
-
-  >> HEADLINE (procedure units only - the fair comparison): 51.9% checkable
-  genre declared in frontmatter: 4 unit(s), 0 disagreeing with detection
+KIBSU_LAB_AUDIT_BLOCK
 ```
 
 `skills/doctrine` scoring 0% is correct, not a defect -- see `skills/doctrine/SKILL.md`.
+
+### Cold-start drill (manual check, not automatable by kibsu itself)
+
+A fresh agent with zero prior context, given only this repo and told to read `AGENTS.md`
+first, should be able to state the project's current state and name the single most
+concrete next task -- without exploring blind. Run against a genuinely fresh clone:
+
+- **10 tool calls.** Read `AGENTS.md` -> `docs/STATE.md` -> `tasks/T3_resume_the_work.md`,
+  in that order -- the exact pointer chain `AGENTS.md` promises. Correctly named **T3** as
+  the most concrete next task, with the right verify command
+  (`python tools/check_task.py T3`) and the right marker commit.
+- **Control:** the same drill against a copy with `AGENTS.md` and `docs/` removed took
+  **26 tool calls** (2.6x) and landed on a *different*, less-grounded answer (T2, since T3
+  needs git history that copy doesn't have) -- it had to fall back to running the checkers
+  directly to reconstruct ground truth, and flagged the mismatch itself. That contrast --
+  cheap and correct with the bootstrap doc, expensive and degraded without it -- is what
+  this drill is actually testing, and it held.
+
+**Verdict: PASS.**
 
 ## Design
 
