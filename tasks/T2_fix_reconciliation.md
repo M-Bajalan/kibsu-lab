@@ -1,6 +1,5 @@
 ---
 type: task
-status: active
 ---
 
 # T2 -- Fix the reconciliation

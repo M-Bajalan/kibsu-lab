@@ -1,7 +1,6 @@
 ---
 name: planner
 type: skill
-status: active
 genre: procedure
 description: >
   How multi-step work gets planned and recorded in this repository before

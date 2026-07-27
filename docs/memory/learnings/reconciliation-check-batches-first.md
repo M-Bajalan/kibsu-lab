@@ -1,6 +1,5 @@
 ---
 type: learning
-status: active
 ---
 
 # Reconciliation mismatch: check batch duplication first

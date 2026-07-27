@@ -1,6 +1,5 @@
 ---
 type: provenance
-status: active
 ---
 
 # Provenance

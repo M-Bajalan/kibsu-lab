@@ -1,6 +1,5 @@
 ---
 type: agents
-status: active
 ---
 
 # AGENTS.md

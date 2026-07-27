@@ -1,6 +1,5 @@
 ---
 type: state
-status: active
 ---
 
 # STATE

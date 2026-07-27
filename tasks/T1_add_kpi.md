@@ -1,6 +1,5 @@
 ---
 type: task
-status: active
 ---
 
 # T1 -- Add a KPI: rolling 3-month distributor share

@@ -1,6 +1,5 @@
 ---
 type: task
-status: active
 ---
 
 # T3 -- Resume the work
