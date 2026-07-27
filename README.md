@@ -51,23 +51,48 @@ Every checker exits 1 on this pristine repo -- see `docs/STATE.md`. A checker th
 passes before the task is done proves nothing; that was verified, not assumed --
 see `docs/memory/learnings/`.
 
-## Baseline (recorded at commit `PENDING-FILL-AT-SHIP`)
+## Baseline (measured at commit `db5a605`, kibsu 0.1.0 from PyPI)
 
 ```
 python -m kibsu report .
 ```
 
 ```
-PENDING-FILL-IN-AT-SHIP -- see README.md history for the exact recorded run
+  WHAT YOUR AGENTS CANNOT DO HERE YET
+  --------------------------------------------------------------------------
+  +  Find your docs             13 docs, index present.
+  +  Know your conventions      consistent frontmatter (status, type) - enforceable.
+  +  Prove they followed        51.9% of your procedural instructions are verifiable
+                                 (above the 11.1% public median).
+  +  Resume after a break       all 1 promised artifacts exist.
+  ?  Follow your own rules      COULD NOT CHECK - the history replay returned no
+                                 verdict (no git history here, or a shallow clone).
+  --------------------------------------------------------------------------
+  4 of 5 ready.  1 could NOT be checked - that is not a pass.
+```
+
+`exit 3` -- honest, by contract: one check genuinely could not run, so the report
+says so instead of rounding up to "5 of 5." That gap looks like a kibsu limitation
+in existence-mode history backtesting when `index_path` lives outside `docs_root`
+(this repo's own `.kibsu.json` sets exactly that shape) -- filed upstream rather
+than worked around here, per this repo's own doctrine on kibsu changes.
+
+```
+python -m kibsu audit .
 ```
 
 ```
-python -m kibsu audit . --definitions
+  genre        units    instr    check   CHECK%   0-check
+  procedure        3       27       14    51.9%      0/3
+  doctrine         1        7        0     0.0%      1/1
+  --------------------------------------------------------
+  ALL              4       34       14    41.2%      1/4
+
+  >> HEADLINE (procedure units only - the fair comparison): 51.9% checkable
+  genre declared in frontmatter: 4 unit(s), 0 disagreeing with detection
 ```
 
-```
-PENDING-FILL-IN-AT-SHIP
-```
+`skills/doctrine` scoring 0% is correct, not a defect -- see `skills/doctrine/SKILL.md`.
 
 ## Design
 
