@@ -32,4 +32,4 @@ python tools/check_task.py T3    # must exit 0
 fresh reset-and-redo -- and that `check_task.py T1`'s own independent recomputation
 passes on the finished result.
 
-MARKER_COMMIT: TBD-filled-in-when-the-task-1-in-progress-branch-is-created
+MARKER_COMMIT: fa64590aa7233a2bf18fb647cc68c6414f54b75e
