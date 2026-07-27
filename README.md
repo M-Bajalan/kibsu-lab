@@ -55,7 +55,7 @@ Every checker exits 1 on this pristine repo -- see `docs/STATE.md`. A checker th
 passes before the task is done proves nothing; that was verified, not assumed --
 see `docs/memory/learnings/`.
 
-## Baseline (after indexing; measured at commit `KIBSU_LAB_BASELINE_SHA`, kibsu 0.1.0 from PyPI)
+## Baseline (after indexing; measured at commit `4940183`, kibsu 0.1.0 from PyPI)
 
 Captured by literally running the Quickstart above, verbatim, against a fresh clone --
 `git clone`, `generate_data.py`, `kibsu index .`, then the two commands below. If your own run
@@ -67,10 +67,21 @@ python -m kibsu report .
 ```
 
 ```
-KIBSU_LAB_REPORT_BLOCK
+  WHAT YOUR AGENTS CANNOT DO HERE YET
+  --------------------------------------------------------------------------
+  +  Find your docs             14 docs, index present.
+  +  Know your conventions      consistent frontmatter (type) - enforceable.
+  +  Prove they followed        51.9% of your procedural instructions are verifiable
+                                 (above the 11.1% public median).
+  +  Resume after a break       all 1 promised artifacts exist.
+  ?  Follow your own rules      COULD NOT CHECK - the history replay returned no
+                                 verdict (no git history here, or a shallow clone).
+  --------------------------------------------------------------------------
+  4 of 5 ready.  1 could NOT be checked - that is not a pass.
 ```
 
-`exit KIBSU_LAB_REPORT_EXIT` -- honest, by contract: KIBSU_LAB_REPORT_EXPLAIN
+`exit 3` -- honest, by contract: one check genuinely could not run, so the report
+says so instead of rounding up to "5 of 5."
 
 That gap looks like a kibsu limitation in existence-mode history backtesting when `index_path`
 lives outside `docs_root` (this repo's own `.kibsu.json` sets exactly that shape, and so does
@@ -83,7 +94,14 @@ python -m kibsu audit .
 ```
 
 ```
-KIBSU_LAB_AUDIT_BLOCK
+  genre        units    instr    check   CHECK%   0-check
+  procedure        3       27       14    51.9%      0/3
+  doctrine         1        7        0     0.0%      1/1
+  --------------------------------------------------------
+  ALL              4       34       14    41.2%      1/4
+
+  >> HEADLINE (procedure units only - the fair comparison): 51.9% checkable
+  genre declared in frontmatter: 4 unit(s), 0 disagreeing with detection
 ```
 
 `skills/doctrine` scoring 0% is correct, not a defect -- see `skills/doctrine/SKILL.md`.
