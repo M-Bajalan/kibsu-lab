@@ -3,5 +3,11 @@
   "skills_dir": "skills",
   "memory_root": "docs/memory",
   "index_path": ".kibsu/index.json",
-  "gates": []
+  "gates": [
+    {
+      "name": "reconcile",
+      "cmd": ["python", "tools/reconcile.py"],
+      "cannot_run_exit": 2
+    }
+  ]
 }

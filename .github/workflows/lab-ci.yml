@@ -1,0 +1,52 @@
+name: lab-ci
+
+# kibsu-lab's CI dogfoods the RELEASED kibsu package from PyPI -- this is kibsu's first real
+# deployment, not a path back into its own source tree (see design D0.2). Pin ==0.1.0 here
+# (a CI run must be exactly reproducible); dependency declarations elsewhere in this repo use
+# the looser kibsu>=0.1.0 (see PROVENANCE.md / README.md).
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lab-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install kibsu (from PyPI, pinned)
+        run: pip install kibsu==0.1.0
+
+      - name: Record the PyPI version actually used
+        run: pip show kibsu
+
+      - name: Generate the seeded dataset
+        run: python tools/generate_data.py
+
+      - name: Selftest -- P1 (double-loaded batch) must be present
+        run: python tools/check_task.py --selftest
+
+      - name: kibsu index
+        run: python -m kibsu index .
+
+      - name: kibsu report (read-only; exit 0 OR 3 is fine -- see below)
+        run: |
+          set +e
+          python -m kibsu report .
+          report_exit=$?
+          set -e
+          echo "kibsu report exit code: $report_exit"
+          if [ "$report_exit" != "0" ] && [ "$report_exit" != "3" ]; then
+            echo "kibsu report exited $report_exit -- only 0 or 3 are acceptable."
+            exit 1
+          fi
+
+      - name: kibsu check
+        run: python -m kibsu check .
