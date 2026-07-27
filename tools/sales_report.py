@@ -67,6 +67,36 @@ def build_monthly_sell_through(data_dir):
     return rows
 
 
+def compute_customer_rolling_3mo_amounts(data_dir):
+    """T1, IN PROGRESS (see tasks/T3_resume_the_work.md and docs/STATE.md):
+    each customer's own trailing 3-month sell-through amount, per month.
+
+    Done: the per-customer rolling window sum, straight from
+    monthly_summary.csv, matching the window definition in
+    tasks/T1_add_kpi.md (current month + up to 2 prior).
+
+    NOT done yet: this only computes the numerator. It does not compute the
+    company-wide rolling denominator, does not turn either into a
+    percentage, and is not wired into main() / reports/rolling_3mo_share.csv
+    at all. Whoever picks this up: read this function before writing a new
+    one -- the window logic below is already correct, do not re-derive it.
+    """
+    summary_rows = load_csv(data_dir / "monthly_summary.csv")
+    months = sorted({r["month"] for r in summary_rows})
+    by_customer_month = {}
+    for row in summary_rows:
+        by_customer_month.setdefault(row["customer_id"], {})[row["month"]] = float(row["total_amount"])
+
+    result = {}
+    for customer_id, month_totals in by_customer_month.items():
+        for i, month in enumerate(months):
+            if month not in month_totals:
+                continue
+            window = months[max(0, i - 2):i + 1]
+            result[(month, customer_id)] = round(sum(month_totals.get(m, 0.0) for m in window), 2)
+    return result
+
+
 def write_csv(path, fieldnames, rows):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", newline="", encoding="utf-8") as f:
