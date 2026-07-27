@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "written": "2026-07-27T21:48:10",
+  "note": "Violations accepted as pre-existing, per configured gate. The gate blocks only on what is NOT here. Rules with a COMPLETE list are matched by identity, so fixing one violation and introducing another is still caught. Rules a gate's checker TRUNCATES are matched by count only - a weaker guarantee, listed under truncated_rules so it is visible rather than assumed.",
+  "gates": {
+    "reconcile": {
+      "accepted": [
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ],
+        [
+          "RECONCILE",
+          "#-# C#: raw=#.# summary=#.# diff=#.#  (txn_count # vs #, qty # vs #)"
+        ]
+      ],
+      "counts": {
+        "RECONCILE": 8
+      },
+      "truncated_rules": []
+    }
+  }
+}
