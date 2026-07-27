@@ -8,6 +8,41 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-07-28 00:30] - F9: skills/doctrine renamed to skills/thinking-partner, pre-publish
+### Changed
+- `skills/doctrine/` -> `skills/thinking-partner/` (folder and file path only). The
+  `genre: doctrine` frontmatter value is unchanged -- it is the taxonomy word for this
+  skill's checkability class, not the skill's name, and stays exactly as it was. The
+  `name:` frontmatter key and the `# ` header inside `SKILL.md` were updated to
+  `thinking-partner` to stay internally consistent with the new path. One internal prose
+  line that used "doctrine" as a self-reference ("the failure mode this whole doctrine
+  exists to prevent") was reworded to "this file exists to prevent" -- not a taxonomy
+  word, just a stale self-reference to the old name.
+- Swept every live reference to the old path: `AGENTS.md` section 1, and `README.md`'s
+  "Baseline" prose line about the doctrine-genre unit scoring 0%. `docs/STATE.md` and
+  every `tasks/*.md` brief were checked (`Select-String -Pattern doctrine` across the
+  full tracked tree) and do not reference this skill at all -- nothing to change there.
+  `docs/CHANGELOG.md`'s own historical entries (L2, and this file's own prior rounds)
+  still say `skills/doctrine/SKILL.md` on purpose -- this project's convention is
+  append/prepend-only; past entries describe what was true when they were written and
+  are not rewritten after the fact.
+### Added
+- One lineage line under the renamed skill's header: "Descended from a private skill
+  built in partnership with an AI session." Generic phrasing, no vendor names, per the
+  instruction.
+### Verified (before this entry, against the working tree with the rename staged)
+- `kibsu index .` / `report .` / `audit .` re-run after the rename: still 15 docs, still
+  `4 of 5 ready` / exit 3, still 46.7% procedure-checkable, still `doctrine 1 7 0 0.0% 1/1`
+  and `ALL 4 37 14 37.8% 1/4` -- identical to the published Baseline block. The rename
+  (a path change plus one added prose line in a doctrine-genre unit, which contributes 0
+  checkable instructions by design) did not move any published number, so the README
+  Baseline section is left untouched.
+### Note (CHECK-AFTER-WRITE, after this entry is committed, against a fresh clone)
+- The governance re-run (`changelog_top_entry_has_task_field("T1")` and `("T2")`, both
+  expected `False`) happens strictly after this entry is committed. Results are
+  deliberately not asserted here, per the same reflexivity discipline as every prior
+  round.
+
 ## [2026-07-28 02:00] - F8: published baseline stopped reproducing, drill.md classified, honest recapture
 ### Fixed
 - `docs/drill.md` frontmatter: added `genre: reference` -- it is a record and lookup

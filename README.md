@@ -116,7 +116,9 @@ block labeled `md`, an unsupported language for kibsu's runnable-fence detection
 as instruction text with nothing to check against it. Publishing the true number here rather
 than the stale one that no longer reproduces.
 
-`skills/doctrine` scoring 0% is correct, not a defect -- see `skills/doctrine/SKILL.md`.
+`skills/thinking-partner` scoring 0% is correct, not a defect -- see `skills/thinking-partner/SKILL.md`.
+(Its `genre: doctrine` frontmatter value is the taxonomy word, unchanged by this rename -- see
+the table above.)
 
 ### Cold-start drill (manual check, not automatable by kibsu itself)
 

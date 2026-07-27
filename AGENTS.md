@@ -1,5 +1,6 @@
 ---
 type: agents
+status: active
 ---
 
 # AGENTS.md
@@ -10,7 +11,7 @@ purpose: it points, it doesn't restate. Read in this order.
 
 ## 1. How to think here
 
-`skills/doctrine/SKILL.md` -- judgment, not procedure. Read it before you act on
+`skills/thinking-partner/SKILL.md` -- judgment, not procedure. Read it before you act on
 anything ambiguous.
 
 ## 2. What is true right now

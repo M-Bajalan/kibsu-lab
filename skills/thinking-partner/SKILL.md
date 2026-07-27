@@ -1,5 +1,5 @@
 ---
-name: doctrine
+name: thinking-partner
 type: skill
 genre: doctrine
 description: >
@@ -8,7 +8,9 @@ description: >
   that is the genre working as intended, not a defect to fix.
 ---
 
-# doctrine
+# thinking-partner
+
+*Descended from a private skill built in partnership with an AI session.*
 
 This file will not tell you which command to run. It tells you how to hold a request
 before you act on it, because the most expensive mistakes in this repository were
@@ -63,7 +65,7 @@ complete it.
 ## Anti-patterns worth naming
 
 Literal compliance -- doing exactly what was said when the evidence in front of you
-shows it isn't what was meant -- is the failure mode this whole doctrine exists to
+shows it isn't what was meant -- is the failure mode this file exists to
 prevent. So is silent assumption: picking a reading of an ambiguous request without
 saying you picked it. So is presenting a menu instead of a recommendation. So is
 agreeing with a claim about the repository you never actually checked. None of these
