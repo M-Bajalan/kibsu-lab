@@ -1,5 +1,6 @@
 ---
 type: drill
+genre: reference
 ---
 
 # Cold-start drill: protocol and results

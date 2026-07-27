@@ -8,6 +8,36 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-07-28 02:00] - F8: published baseline stopped reproducing, drill.md classified, honest recapture
+### Fixed
+- `docs/drill.md` frontmatter: added `genre: reference` -- it is a record and lookup
+  document (protocol + results), not instructions for an agent to follow, and it was
+  undeclared. Verified this does not itself move `kibsu audit`'s numbers: audit's unit
+  scope is `SKILL.md` files only (4 of them), so a `docs/*.md` genre tag was never going
+  to change the procedure percentage -- the earlier published 51.9% had already gone
+  stale for a different reason (see below), and this fix is about honest classification
+  of `docs/drill.md`, not about restoring that number.
+- `README.md`'s Baseline section no longer reproduces its own published numbers from a
+  fresh clone (`14 docs`/`51.9%` published; a fresh clone now measures `15 docs`/`46.7%`,
+  since `docs/drill.md` (added in the F7 fix) is a real, correctly-counted fifteenth doc).
+  Re-captured from a genuine fresh clone following this README's own Quickstart and
+  published exactly what it measures, including the number landing lower than before.
+  Also dropped the pinned commit-hash convention from the heading (`measured at commit`)
+  -- a commit that changes the very numbers it publishes cannot cite its own hash in
+  advance without a second commit, which this round is deliberately avoiding; the heading
+  now says "measured at this commit" and points the reader at `git log -1` instead.
+### Note
+- The true root cause of the 51.9% -> 46.7% drop is NOT `docs/drill.md` -- it is
+  `skills/change-log/SKILL.md` picking up 3 more instructions than it has matching checks
+  for, from the `task: <ID>` field documentation added in Round 2. Its example is a fenced
+  code block labeled `md`, an unsupported language for kibsu's runnable-fence detection.
+  Confirmed by testing: applying `genre: reference` to `docs/drill.md` alone left the audit
+  numbers completely unchanged (still 30 instr / 14 check / 46.7%). Recorded here rather
+  than silently building on an incomplete diagnosis.
+### Verified (CHECK-AFTER-WRITE, after this entry, against a fresh clone)
+- Governance re-run happens strictly after this entry is committed; results are
+  deliberately not asserted here, per the same reflexivity discipline as the prior round.
+
 ## [2026-07-28 01:35] - F7: published cold-start drill results that were never run
 ### Fixed
 - `README.md`'s "Cold-start drill" section published specific numbers (10 vs 26 tool

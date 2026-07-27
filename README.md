@@ -55,12 +55,15 @@ Every checker exits 1 on this pristine repo -- see `docs/STATE.md`. A checker th
 passes before the task is done proves nothing; that was verified, not assumed --
 see `docs/memory/learnings/`.
 
-## Baseline (after indexing; measured at commit `4940183`, kibsu 0.1.0 from PyPI)
+## Baseline (after indexing; measured at this commit, kibsu 0.1.0 from PyPI)
 
 Captured by literally running the Quickstart above, verbatim, against a fresh clone --
 `git clone`, `generate_data.py`, `kibsu index .`, then the two commands below. If your own run
 doesn't match this block, the difference is real and worth reporting -- this block is not
 allowed to say anything a fresh clone can't reproduce by following this README's own steps.
+(No commit hash is pinned here on purpose: a commit that changes the numbers below cannot cite
+its own hash in advance. Run `git log -1 --oneline` on your clone to see which commit you're
+reading this block from.)
 
 ```
 python -m kibsu report .
@@ -69,9 +72,9 @@ python -m kibsu report .
 ```
   WHAT YOUR AGENTS CANNOT DO HERE YET
   --------------------------------------------------------------------------
-  +  Find your docs             14 docs, index present.
+  +  Find your docs             15 docs, index present.
   +  Know your conventions      consistent frontmatter (type) - enforceable.
-  +  Prove they followed        51.9% of your procedural instructions are verifiable
+  +  Prove they followed        46.7% of your procedural instructions are verifiable
                                  (above the 11.1% public median).
   +  Resume after a break       all 1 promised artifacts exist.
   ?  Follow your own rules      COULD NOT CHECK - the history replay returned no
@@ -95,14 +98,23 @@ python -m kibsu audit .
 
 ```
   genre        units    instr    check   CHECK%   0-check
-  procedure        3       27       14    51.9%      0/3
+  procedure        3       30       14    46.7%      0/3
   doctrine         1        7        0     0.0%      1/1
   --------------------------------------------------------
-  ALL              4       34       14    41.2%      1/4
+  ALL              4       37       14    37.8%      1/4
 
-  >> HEADLINE (procedure units only - the fair comparison): 51.9% checkable
+  >> HEADLINE (procedure units only - the fair comparison): 46.7% checkable
   genre declared in frontmatter: 4 unit(s), 0 disagreeing with detection
 ```
+
+The drop from a previously published 51.9% is real, not a `docs/drill.md` side effect --
+`kibsu audit` only scans `SKILL.md` units (4 of them, unchanged by this file), so a doc's
+genre tag cannot move this number. The actual cause is upstream of this fix:
+`skills/change-log/SKILL.md` picked up 3 more instructions than it has matching checks for
+when the `task: <ID>` field convention was documented there -- its example is a fenced code
+block labeled `md`, an unsupported language for kibsu's runnable-fence detection, so it reads
+as instruction text with nothing to check against it. Publishing the true number here rather
+than the stale one that no longer reproduces.
 
 `skills/doctrine` scoring 0% is correct, not a defect -- see `skills/doctrine/SKILL.md`.
 
