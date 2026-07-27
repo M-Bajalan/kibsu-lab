@@ -108,22 +108,9 @@ python -m kibsu audit .
 
 ### Cold-start drill (manual check, not automatable by kibsu itself)
 
-A fresh agent with zero prior context, given only this repo and told to read `AGENTS.md`
-first, should be able to state the project's current state and name the single most
-concrete next task -- without exploring blind. Run against a genuinely fresh clone:
+The lab's acceptance includes a manual cold-start drill, run by fresh external agents.
 
-- **10 tool calls.** Read `AGENTS.md` -> `docs/STATE.md` -> `tasks/T3_resume_the_work.md`,
-  in that order -- the exact pointer chain `AGENTS.md` promises. Correctly named **T3** as
-  the most concrete next task, with the right verify command
-  (`python tools/check_task.py T3`) and the right marker commit.
-- **Control:** the same drill against a copy with `AGENTS.md` and `docs/` removed took
-  **26 tool calls** (2.6x) and landed on a *different*, less-grounded answer (T2, since T3
-  needs git history that copy doesn't have) -- it had to fall back to running the checkers
-  directly to reconstruct ground truth, and flagged the mismatch itself. That contrast --
-  cheap and correct with the bootstrap doc, expensive and degraded without it -- is what
-  this drill is actually testing, and it held.
-
-**Verdict: PASS.**
+Protocol and results: `docs/drill.md`.
 
 ## Design
 

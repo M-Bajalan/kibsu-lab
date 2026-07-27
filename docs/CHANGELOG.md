@@ -8,6 +8,29 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-07-28 01:35] - F7: published cold-start drill results that were never run
+### Fixed
+- `README.md`'s "Cold-start drill" section published specific numbers (10 vs 26 tool
+  calls, "landed on T2", "Verdict: PASS") for a drill that had not actually been run --
+  a verdict without an execution behind it, the exact defect class this lab exists to
+  teach. Cut the entire results/verdict portion; the section now states in two neutral
+  lines that the lab's acceptance includes a manual cold-start drill run by fresh
+  external agents, and points to `docs/drill.md`.
+### Added
+- `docs/drill.md` -- the drill's protocol (two fresh sessions, one arm each; control
+  strips `docs/` and `.git`, keeps `AGENTS.md`) and the real 2026-07-28 results: Arm A
+  grounded correctly via `AGENTS.md` -> `docs/STATE.md`, named T3 as a continuation
+  (not a restart), no changes made; Arm B could not ground state with `docs/` absent
+  and said so honestly, partially reconstructing a next action from the task briefs
+  instead. Also discloses two protocol issues found along the way: the tested control
+  copy still carried the old (fabricated) README drill text -- fixed by this same
+  change, since controls strip `docs/` and results now live there -- and the mount
+  exposed the sibling folder's name.
+### Why
+- Control copies strip `docs/` by design, so a future control can never read its own
+  expected outcome by accident. Putting the drill's real results inside `docs/`, not
+  the README, makes that stripping the actual fix, not just a description of one.
+
 ## [2026-07-28 01:10] - Round 2: exact-line task field replaces substring governance gates
 ### Fixed
 - `tools/check_task.py` T1 and T2 governance gates: the substring check
