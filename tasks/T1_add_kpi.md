@@ -1,3 +1,8 @@
+---
+type: task
+status: active
+---
+
 # T1 -- Add a KPI: rolling 3-month distributor share
 
 **Verifier:** `python tools/check_task.py T1` (exit 0 = done, 1 = not yet, 2 = could not run)

@@ -1,3 +1,8 @@
+---
+type: readme
+status: active
+---
+
 # kibsu-lab
 
 Clone this, point any coding agent at `AGENTS.md`, give it a task from `tasks/` --

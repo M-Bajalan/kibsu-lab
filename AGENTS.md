@@ -1,3 +1,8 @@
+---
+type: agents
+status: active
+---
+
 # AGENTS.md
 
 You're a fresh agent in **kibsu-lab** -- a public, cloneable virtual workspace for

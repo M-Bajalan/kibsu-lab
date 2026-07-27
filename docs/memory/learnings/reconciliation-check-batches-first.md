@@ -1,3 +1,8 @@
+---
+type: learning
+status: active
+---
+
 # Reconciliation mismatch: check batch duplication first
 
 A sell-through mismatch between `data/transactions.csv` and

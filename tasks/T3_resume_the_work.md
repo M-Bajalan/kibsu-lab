@@ -1,3 +1,8 @@
+---
+type: task
+status: active
+---
+
 # T3 -- Resume the work
 
 **Verifier:** `python tools/check_task.py T3` (exit 0 = done, 1 = not yet, 2 = could not run)

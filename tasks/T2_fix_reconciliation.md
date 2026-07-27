@@ -1,3 +1,8 @@
+---
+type: task
+status: active
+---
+
 # T2 -- Fix the reconciliation
 
 **Verifier:** `python tools/check_task.py T2` (exit 0 = done, 1 = not yet, 2 = could not run)

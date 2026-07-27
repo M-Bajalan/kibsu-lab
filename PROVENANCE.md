@@ -1,3 +1,8 @@
+---
+type: provenance
+status: active
+---
+
 # Provenance
 
 Every entity in this repository -- the company, its distributors, products, sales

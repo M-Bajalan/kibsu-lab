@@ -1,3 +1,8 @@
+---
+type: changelog
+status: active
+---
+
 # Changelog
 
 kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) --
