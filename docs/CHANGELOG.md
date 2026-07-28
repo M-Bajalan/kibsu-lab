@@ -8,6 +8,29 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-07-28 20:03] - Lab micro-cycle: AGENTS.md gains the kibsu discover pointer
+### Added
+- `AGENTS.md` new "## 0. On arrival" section: run `python -m kibsu discover .` before
+  anything else. The tool has existed in this repo's kibsu 0.1.0 install the whole time,
+  but nothing pointed an agent at it -- the same push-vs-pull gap named in
+  `Kibsu_Cycle1_Prereg_2026-07-28.md`'s lab micro-cycle, applied to this lab's own docs.
+### Verified (before this entry, against the working tree with the AGENTS.md change staged)
+- Ran the tool for real before writing the pointer, instead of describing it from memory:
+  on this repo right now it exits 1 and reports one DECLARED-BUT-DEAD finding --
+  `tools/reconcile.py` and `tools/sales_report.py` are named in `AGENTS.md`, but nothing
+  actually invokes them (the `.kibsu.json` gates entry for `reconcile.py` is never run,
+  because `kibsu gate` itself is never called by the pre-commit hook or by CI). Not fixed
+  here -- out of this round's narrow scope, which is the pointer only -- but recorded so
+  the next session doesn't have to re-discover it.
+- Re-ran `kibsu index . / report . / audit .` against the staged change: still 15 docs,
+  still `4 of 5 ready` / exit 3, still 46.7% procedure-checkable, still
+  `doctrine 1 7 0 0.0% 1/1` and `ALL 4 37 14 37.8% 1/4` -- identical to the published
+  Baseline block. The pre-registration flagged that the new runnable command might RAISE
+  the lab's procedure %; it did not, because `kibsu audit`'s unit scope is `SKILL.md`
+  files only (confirmed at F8) and `AGENTS.md` is never one of them. Publishing that flat
+  result rather than the hoped-for rise. No published number moved, so the README Baseline
+  section is left untouched.
+
 ## [2026-07-28 00:30] - F9: skills/doctrine renamed to skills/thinking-partner, pre-publish
 ### Changed
 - `skills/doctrine/` -> `skills/thinking-partner/` (folder and file path only). The

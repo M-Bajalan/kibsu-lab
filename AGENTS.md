@@ -9,6 +9,14 @@ You're a fresh agent in **kibsu-lab** -- a public, cloneable virtual workspace f
 one fictional distribution company, **Tuppi Trading Co.** This file is thin on
 purpose: it points, it doesn't restate. Read in this order.
 
+## 0. On arrival
+
+Run `python -m kibsu discover .` -- it checks what this repo actually has wired (CI, git
+hooks, agent hooks, tests, and whether the gates these docs mandate are invoked by any real
+automation) against what these docs merely claim. Do this before anything else below; a
+declared-but-dead gate reads as coverage from the outside, and this is the fastest way to
+find out whether that's true right now.
+
 ## 1. How to think here
 
 `skills/thinking-partner/SKILL.md` -- judgment, not procedure. Read it before you act on
