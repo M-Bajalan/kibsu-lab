@@ -8,6 +8,36 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-08-28 18:00] - Skill team completed: architect and strategist ported in
+### Added
+- `skills/architect/SKILL.md` (genre: procedure) -- the conventions this repo enforces:
+  frontmatter declaration, honest genre declaration, one-fact-one-home, the path table,
+  index rebuild after add/move. 11 instructions, 8 checkable (73%) -- the most checkable
+  unit here, above `skills/gate` at 57%.
+- `skills/strategist/SKILL.md` (genre: doctrine) -- diagnose before proposing, the three
+  things that are not strategy, options carry cost/risk/reversibility, always recommend.
+  Scores 0% checkable, which is the genre working, not a hole to patch.
+### Changed
+- `README.md` baseline block refreshed to what a fresh clone now reproduces: 17 docs
+  (was 15), procedure 53.7% (was 46.7%), 6 units (was 4), all 3 promised artifacts (was 1).
+  The block is not allowed to state numbers a clone can't reproduce, so it moved with the corpus.
+### Verified (commands run, exit codes read -- not inferred)
+- `python -m kibsu audit .` -- 6 units, procedure 53.7%, doctrine hard 0.0%,
+  `genre declared in frontmatter: 6 unit(s), 0 disagreeing with detection`.
+- `python -m kibsu report .` -- exit 3 (unchanged; the history-replay check still cannot run,
+  kibsu#2). `all 3 promised artifacts exist` -- no phantom instructions introduced.
+- Scrub gate run from outside the repo, fail-then-pass proven on these exact files: a
+  deliberately injected denylist term raised the count 1 -> 3 and named
+  `skills/architect/SKILL.md`; removing it returned the file byte-identical and the count to 1.
+  The remaining hit is pre-existing (`tools/generate_data.py:196` -- a bare pipeline acronym
+  used as ordinary industry English, previously ruled allowed) and is untouched by this change.
+### Noted, not fixed
+- The scrub enumerates via `git ls-files`, so an untracked new file is invisible to it. A
+  first run here reported clean while scanning 27 files, neither of them the two new ones;
+  `git add` moved it to 29 and made the check real. A brand-new file is the highest-risk
+  leak surface and the one the gate silently skips. Out of scope for this entry; recorded
+  so the next session does not rediscover it the hard way.
+
 ## [2026-07-28 20:03] - Lab micro-cycle: AGENTS.md gains the kibsu discover pointer
 ### Added
 - `AGENTS.md` new "## 0. On arrival" section: run `python -m kibsu discover .` before

@@ -72,11 +72,11 @@ python -m kibsu report .
 ```
   WHAT YOUR AGENTS CANNOT DO HERE YET
   --------------------------------------------------------------------------
-  +  Find your docs             15 docs, index present.
+  +  Find your docs             17 docs, index present.
   +  Know your conventions      consistent frontmatter (type) - enforceable.
-  +  Prove they followed        46.7% of your procedural instructions are verifiable
+  +  Prove they followed        53.7% of your procedural instructions are verifiable
                                  (above the 11.1% public median).
-  +  Resume after a break       all 1 promised artifacts exist.
+  +  Resume after a break       all 3 promised artifacts exist.
   ?  Follow your own rules      COULD NOT CHECK - the history replay returned no
                                  verdict (no git history here, or a shallow clone).
   --------------------------------------------------------------------------
@@ -98,25 +98,32 @@ python -m kibsu audit .
 
 ```
   genre        units    instr    check   CHECK%   0-check
-  procedure        3       30       14    46.7%      0/3
-  doctrine         1        7        0     0.0%      1/1
+  procedure        4       41       22    53.7%      0/4
+  doctrine         2       13        0     0.0%      2/2
   --------------------------------------------------------
-  ALL              4       37       14    37.8%      1/4
+  ALL              6       54       22    40.7%      2/6
 
-  >> HEADLINE (procedure units only - the fair comparison): 46.7% checkable
-  genre declared in frontmatter: 4 unit(s), 0 disagreeing with detection
+  >> HEADLINE (procedure units only - the fair comparison): 53.7% checkable
+  genre declared in frontmatter: 6 unit(s), 0 disagreeing with detection
 ```
 
-The drop from a previously published 51.9% is real, not a `docs/drill.md` side effect --
-`kibsu audit` only scans `SKILL.md` units (4 of them, unchanged by this file), so a doc's
-genre tag cannot move this number. The actual cause is upstream of this fix:
-`skills/change-log/SKILL.md` picked up 3 more instructions than it has matching checks for
-when the `task: <ID>` field convention was documented there -- its example is a fenced code
-block labeled `md`, an unsupported language for kibsu's runnable-fence detection, so it reads
-as instruction text with nothing to check against it. Publishing the true number here rather
-than the stale one that no longer reproduces.
+**The rise from 46.7% to 53.7% is composition, not improvement, and must not be read as
+one.** Two units were *added* (`skills/architect`, `skills/strategist`); not one line of an
+existing skill was edited. `architect` happens to be an unusually checkable unit (8 of 11
+instructions name a command and an expected result), so the average moved -- which is the
+average doing arithmetic, not this repository getting better at anything. Any future
+before/after that claims an *improvement* measures against a fresh baseline taken at that
+moment, never against a number a corpus change moved.
 
-`skills/thinking-partner` scoring 0% is correct, not a defect -- see `skills/thinking-partner/SKILL.md`.
+The earlier history stands and is not overwritten: 51.9%, then 46.7% once
+`skills/change-log/SKILL.md` picked up 3 more instructions than it had matching checks for
+(its `task: <ID>` example is a fenced block labeled `md`, an unsupported language for kibsu's
+runnable-fence detection, so it reads as instruction text with nothing to check against it).
+Each published number was true of the corpus it was measured on.
+
+`skills/thinking-partner` and `skills/strategist` scoring 0% is correct, not a defect -- both
+declare `genre: doctrine`, and judgment guidance has nothing for a checker to check. Raising
+either number would mean replacing judgment with ceremony. See each file's own closing note.
 (Its `genre: doctrine` frontmatter value is the taxonomy word, unchanged by this rename -- see
 the table above.)
 
