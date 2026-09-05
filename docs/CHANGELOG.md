@@ -8,6 +8,39 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-09-05 14:06] - Audit of the skill-team port: four defects fixed, one of them real
+### Fixed
+- `skills/strategist/SKILL.md` -- the worked example contradicted this repo's own task.
+  It said the double-loaded batch "belongs at load time, not in the totals" and to make
+  the loader reject it. `tasks/T2_fix_reconciliation.md` says the opposite and calls it
+  the documented convention: dedupe by batch id before summing in `tools/reconcile.py`,
+  and leave the transactions file as the honest record of what was loaded. An agent
+  trusting the old example would have edited the fixture generator -- the planted defect
+  itself -- and T2's checker would never pass. Rewritten so the diagnosis lands on the
+  convention and names why the tempting fix is wrong here.
+- `AGENTS.md` -- sections 1 and 5 now point at `skills/strategist` and `skills/architect`.
+  Nothing routed a fresh agent to either: the same push-vs-pull gap the previous entry
+  fixed for `kibsu discover`, repeated in the commit built on top of it.
+- `skills/architect/SKILL.md` Rule 4 -- "each usable bare from the repo root" was false
+  for `tools/check_task.py` (bare -> exit 1, usage). Now says what is true.
+### Added
+- `docs/plans/.gitkeep` -- the path was promised three times (`planner` once,
+  `architect` twice) and did not exist. A templated path kibsu's phantom check cannot
+  see, so it was carried by both entries unnoticed; the directory now exists.
+### Changed
+- `README.md` audit block -- doctrine 13 -> 15 instructions (the rewritten example is
+  longer), ALL 40.7% -> 39.3%. Procedure headline unchanged at 53.7%: no procedure unit
+  gained or lost an instruction. Composition again, not improvement.
+### Verified (commands run, exit codes read)
+- `python -m kibsu audit .` -- 6 units, procedure 53.7%, doctrine 0.0%, `0 disagreeing
+  with detection` (the rewritten example did not flip `strategist`'s detected genre).
+- `python -m kibsu report .` -- exit 3, 17 docs, all 3 promised artifacts, unchanged.
+- Scrub from outside the repo, tree and history: 1 hit each, the pre-existing one.
+### How this was found
+- A second model reviewed the first's work against the source a week later: re-ran every
+  measurement, then read `tasks/T2_fix_reconciliation.md` -- which the author of the
+  example had not.
+
 ## [2026-08-28 18:00] - Skill team completed: architect and strategist ported in
 ### Added
 - `skills/architect/SKILL.md` (genre: procedure) -- the conventions this repo enforces:

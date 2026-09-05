@@ -14,7 +14,7 @@ next, without re-deriving it from the whole repository.
 | REPORTING | BASELINE | `tools/sales_report.py` produces `reports/monthly_sell_through.csv`. Rolling 3-month distributor share is NOT yet added on `main` -- that is task T1 (`tasks/T1_add_kpi.md`). A partial start exists on branch `task/T1-in-progress` -- see task T3 (`tasks/T3_resume_the_work.md`). | 2026-07-27 |
 | RECONCILIATION | BROKEN (by design) | `tools/reconcile.py` exits 1 out of the box (P1). Fixing it -- batch-id dedupe -- is task T2 (`tasks/T2_fix_reconciliation.md`). | 2026-07-27 |
 | TASKS | 3 SHIPPED | T1 (add KPI), T2 (fix reconciliation), T3 (resume half-done T1 work on `task/T1-in-progress`) all have machine checkers under `tools/check_task.py`. All three currently FAIL on this pristine repo -- that is correct; see `tasks/*.md`. | 2026-07-27 |
-| SKILLS | 6 UNITS | Skill team complete at 6 units -- `gate`, `planner`, `change-log`, `architect` (procedure); `thinking-partner`, `strategist` (doctrine). No action outstanding. If any unit is edited, take a fresh `python -m kibsu audit .` baseline and record it BEFORE the edit -- see the baseline note in `README.md`. | 2026-08-28 |
+| SKILLS | 6 UNITS | Skill team complete at 6 units -- `gate`, `planner`, `change-log`, `architect` (procedure); `thinking-partner`, `strategist` (doctrine). No action outstanding. If any unit is edited, take a fresh `python -m kibsu audit .` baseline and record it BEFORE the edit -- see the baseline note in `README.md`. | 2026-09-05 |
 
 ## How to read this file
 

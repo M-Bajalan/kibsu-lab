@@ -20,7 +20,9 @@ find out whether that's true right now.
 ## 1. How to think here
 
 `skills/thinking-partner/SKILL.md` -- judgment, not procedure. Read it before you act on
-anything ambiguous.
+anything ambiguous. `skills/strategist/SKILL.md` -- how to choose between approaches:
+name the real hurdle first, then recommend rather than list. Neither names a command to
+run; both score near zero on checkability by design.
 
 ## 2. What is true right now
 
@@ -43,7 +45,9 @@ pristine repo by design; that is the starting state, not a broken checker.
 
 `skills/change-log/SKILL.md` (what to write, where, when you finish something) and
 `skills/gate/SKILL.md` (what needs a green check before you commit). For anything
-spanning 3+ steps, `skills/planner/SKILL.md`.
+spanning 3+ steps, `skills/planner/SKILL.md`. Adding, moving, or renaming a file:
+`skills/architect/SKILL.md` -- what every file must declare, where it belongs, and the
+commands that prove it.
 
 ## 6. The data
 

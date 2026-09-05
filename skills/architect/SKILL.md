@@ -64,7 +64,7 @@ which one is lying. When you are tempted to restate something, link to it instea
 | `docs/plans/` | plan files (`skills/planner/SKILL.md`) |
 | `docs/memory/learnings/` | one lesson per file |
 | `skills/<name>/SKILL.md` | one skill per directory |
-| `tools/` | runnable Python, each usable bare from the repo root |
+| `tools/` | runnable Python, run from the repo root (`check_task.py` takes a task id) |
 | `tasks/` | task briefs graded by `tools/check_task.py` |
 | `data/` | generated, never committed -- see `PROVENANCE.md` |
 

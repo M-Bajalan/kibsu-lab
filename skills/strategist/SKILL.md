@@ -23,17 +23,24 @@ A proposal that skips the diagnosis is a guess wearing a plan's clothes. Work th
 layers, in order, and do not skip the first:
 
 **Diagnosis** -- what is actually going on? Name the specific hurdle, not the symptom.
-"The reconciliation fails" is a symptom. "One batch was loaded twice, so every total
-built on batch rows double-counts while the row-level data stays individually valid"
-is a hurdle -- and it is the sentence that tells you the fix belongs at load time, not
-in the totals.
+"The reconciliation fails" is a symptom. "One import batch was loaded twice -- its full
+row set is byte-identical to an earlier batch's -- so the undeduped sum double-counts one
+month while every individual row stays valid" is a hurdle. It also says where the fix
+does *not* belong. The transactions file is the honest record of what was loaded, and
+`tasks/T2_fix_reconciliation.md` treats it that way: editing the record to hide the
+re-load, or raising a tolerance until the gap goes quiet, treats the symptom -- and the
+task's checker is built to catch both.
 
-**Guiding policy** -- the direction of the fix, in one sentence. "Make the loader
-reject a batch it has already seen, rather than teaching every report to subtract."
+**Guiding policy** -- the direction of the fix, in one sentence. "Dedupe by batch id
+before summing, where the totals are built, and leave the raw file as it was loaded."
 
-**Coherent actions** -- two to four steps that follow from that policy. If the steps do
-not obviously follow from the sentence above them, the policy is not doing any work and
-you have written a to-do list with a title.
+**Coherent actions** -- two to four steps that follow from that policy. Here they read:
+"Start with the learning file, which says to check batch duplication before join logic.
+Drop every batch whose rows repeat an earlier one. Show the undeduped total really
+disagreed before the fix -- a gap that was never there is a no-op in a fix's clothes.
+Log it with a `task: T2` line." If the steps do not obviously follow from the sentence
+above them, the policy is not doing any work and you have written a to-do list with a
+title.
 
 The order matters more than the vocabulary. A diagnosis written after the actions were
 chosen is a justification, and it will happily justify the wrong fix.

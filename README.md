@@ -99,9 +99,9 @@ python -m kibsu audit .
 ```
   genre        units    instr    check   CHECK%   0-check
   procedure        4       41       22    53.7%      0/4
-  doctrine         2       13        0     0.0%      2/2
+  doctrine         2       15        0     0.0%      2/2
   --------------------------------------------------------
-  ALL              6       54       22    40.7%      2/6
+  ALL              6       56       22    39.3%      2/6
 
   >> HEADLINE (procedure units only - the fair comparison): 53.7% checkable
   genre declared in frontmatter: 6 unit(s), 0 disagreeing with detection
