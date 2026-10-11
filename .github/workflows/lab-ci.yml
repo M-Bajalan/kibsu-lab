@@ -1,9 +1,14 @@
 name: lab-ci
 
 # kibsu-lab's CI dogfoods the RELEASED kibsu package from PyPI -- this is kibsu's first real
-# deployment, not a path back into its own source tree (see design D0.2). Pin ==0.1.0 here
+# deployment, not a path back into its own source tree (see design D0.2). Pin ==0.9.0 here
 # (a CI run must be exactly reproducible); dependency declarations elsewhere in this repo use
-# the looser kibsu>=0.1.0 (see PROVENANCE.md / README.md).
+# the looser kibsu>=0.9.0 (see PROVENANCE.md / README.md).
+#
+# The pin and README.md's Baseline block move TOGETHER, in one commit. This pin sat at 0.1.0
+# for nine kibsu releases and kept this workflow green the whole time, because 0.1.0 was the
+# one version that still agreed with the README -- a pin proves the pinned version works, and
+# says nothing about the current one. docs/STATE.md's TOOLING row carries the next action.
 
 on:
   push:
@@ -22,7 +27,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install kibsu (from PyPI, pinned)
-        run: pip install kibsu==0.1.0
+        run: pip install kibsu==0.9.0
 
       - name: Record the PyPI version actually used
         run: pip show kibsu

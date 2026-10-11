@@ -4,10 +4,11 @@ type: upstream-issue-draft
 
 # kibsu issue -- existence-mode history backtest returns no verdict when `index_path` lives outside `docs_root`
 
-**Status: FILED as [kibsu#2](https://github.com/M-Bajalan/kibsu/issues/2).** The root cause below
-was verified directly against kibsu's own source before filing, and the diagnosis held. This
-file stays as the reproduction record; `README.md`'s baseline section cites the issue number
-directly rather than re-describing the gap.
+**Status: FILED as [kibsu#2](https://github.com/M-Bajalan/kibsu/issues/2), and FIXED in kibsu
+0.1.1 (2026-07-29).** The root cause below was verified directly against kibsu's own source
+before filing, and the diagnosis held. This file stays as the reproduction record: it
+reproduces only under kibsu 0.1.0, the version it was written against. `README.md`'s baseline
+section says what the same question reads today, and why.
 
 ## Reproduction
 

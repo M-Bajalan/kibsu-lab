@@ -8,6 +8,57 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-10-11 10:07] - Baseline re-captured with kibsu 0.9.0; the pin and the README move together now
+### Fixed
+- `README.md` Baseline -- the block was captured with kibsu 0.1.0 and had not been
+  reproducible with any later release. A fresh clone following the Quickstart with kibsu
+  0.8.0 printed 47.8% where the block said 53.7%, a different fifth line, and exit 0 where
+  the block said 3. Re-captured with kibsu 0.9.0 from PyPI on a fresh clone. The report
+  block is now the tool's output line for line (it used to be re-wrapped by hand and to
+  omit the path line), with the clone path written as `/path/to/kibsu-lab`.
+- `README.md` -- the "Known kibsu limitation" paragraph cited kibsu#2 as open. It was fixed
+  in kibsu 0.1.1 on 2026-07-29, one day after this repository went public. Replaced by what
+  the fifth question reads today and why, with the three behaviours it has had.
+- `README.md` Quickstart -- there was no install step. `pip install "kibsu>=0.9.0"` added.
+- `docs/upstream-issue-draft.md` -- status line now says the issue is fixed, and that the
+  reproduction below it holds only under kibsu 0.1.0.
+### Changed
+- `.github/workflows/lab-ci.yml` -- pin `kibsu==0.1.0` -> `kibsu==0.9.0`, and a comment on
+  why the pin and the Baseline block must move in one commit.
+- `PROVENANCE.md` -- dependency paragraph names 0.9.0.
+- `README.md` -- 53.7% -> 47.8% is recorded as the instrument moving, not this repository:
+  no skill file changed; kibsu's scorer reads 46 procedure instructions here where the one
+  in 0.1.0 read 41, checkable unchanged at 22; doctrine 15 -> 18. The earlier figures stay,
+  labelled as kibsu 0.1.0 measurements.
+### Added
+- `docs/STATE.md` -- a TOOLING row. The pin had no owner and no next action, which is how
+  it sat for nine kibsu releases; it has both now.
+### Found, not fixed here
+- `skills/gate/SKILL.md` names three commands that do not run: `python -m kibsu gate
+  --check .`, `--status .` and `--baseline .` each exit 2 with `unrecognized arguments: .`,
+  under kibsu 0.1.0 and under 0.9.0 alike -- they never worked. Without the dot they do.
+  kibsu counts those lines as checkable, because a command is named; nothing checks that
+  the command is one the tool accepts. Left alone on purpose: it is a skill edit, and a
+  skill edit takes its own audit baseline first. Recorded in `docs/STATE.md` (SKILLS row).
+### Why CI never caught it
+- CI was pinned to the one kibsu version that still agreed with the README. A pin proves
+  the pinned version works and says nothing about the current one. Every run was green.
+### How this was found
+- From outside: kibsu's 2026-10-10 review installed its published package into an empty
+  environment and followed this README from the top, comparing each printed line with the
+  page. Nothing inside this repository could have reported it -- every check here ran, and
+  passed, against 0.1.0.
+### Verified (commands run on a fresh clone with kibsu 0.9.0 from PyPI, exit codes read)
+- `python tools/generate_data.py` -- exit 0.
+- `python tools/check_task.py --selftest` -- exit 0.
+- `python -m kibsu index .` -- exit 0, 17 docs.
+- `python tools/check_task.py T1` -- exit 1, as the Quickstart says of a pristine clone.
+- `python -m kibsu report .` -- exit 3; every line equal to the README block once the clone
+  path is substituted.
+- `python -m kibsu audit .` -- exit 0; table and headline equal to the README block.
+- `python -m kibsu check .` -- exit 0.
+- `git status --porcelain` afterwards -- empty.
+
 ## [2026-09-05 14:06] - Audit of the skill-team port: four defects fixed, one of them real
 ### Fixed
 - `skills/strategist/SKILL.md` -- the worked example contradicted this repo's own task.
