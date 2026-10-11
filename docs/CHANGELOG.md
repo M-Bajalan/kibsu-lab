@@ -8,6 +8,64 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-10-11 17:15] - Baseline re-captured with kibsu 0.10.0: the scorer counts sentences now, and the page went stale the minute it shipped
+### Fixed
+- `README.md` Baseline -- re-captured with kibsu 0.10.0 from PyPI on a fresh clone. The report
+  block's third line reads 57.8% above a 7.6% public median (it read 47.8% above 7.5%), its
+  fourth reads `all 4 promised artifacts exist` (it read 3), and the audit table reads
+  45 / 26 / 57.8% for procedure and 15 / 0 / 0.0% for doctrine (46 / 22 / 47.8% and 18 / 0).
+  Every other line is unchanged, and so is the exit code, 3.
+- `README.md` Quickstart -- `pip install "kibsu>=0.9.0"` -> `"kibsu>=0.10.0"`. The old line
+  installed 0.10.0 from the moment it was published, so the page told a reader to install
+  one version and showed them the output of another.
+### Changed
+- `.github/workflows/lab-ci.yml` -- pin `kibsu==0.9.0` -> `kibsu==0.10.0`, in this same commit
+  as the block, and the comment records that the pin went stale a second time.
+- `PROVENANCE.md` -- dependency paragraph names 0.10.0.
+- `README.md` -- a new section, "Why this block was re-captured again", says what moved: the
+  instrument, not this repository. No skill file changed. kibsu's scorer 0.11.0 counts
+  sentences where every earlier scorer counted physical lines; this repository hard-wraps
+  its prose, so one instruction had been scored as two or three lines. The ten-point rise is
+  not an improvement and the section says so in those words. The earlier section is kept and
+  now carries its version in its title.
+- `docs/STATE.md` -- TOOLING row: pinned 0.10.0; the next action now names the Quickstart's
+  install line alongside the pin; the open item records that it has cost two stale blocks.
+  SKILLS row: the three broken `kibsu gate ... .` commands were re-run under 0.10.0 and
+  still exit 2.
+### Found, not fixed here
+- `all 4 promised artifacts exist` is the instrument talking. No skill promises a new file.
+  The fourth is the checklist line in `skills/planner/SKILL.md` that names
+  `skills/change-log/SKILL.md`: joined into one sentence it is read as a promise to produce
+  that file, because kibsu's artifact-verb test matches the word `log` inside the file's own
+  name. With the file name taken out of the sentence the test finds no verb. This is kibsu's
+  flaw, named in its `CORRECTIONS.md` (2026-10-11) and not fixed in 0.10.0; the README says
+  so beside the block rather than letting the line read as a finding about this repository.
+- The gap that let the page go stale is still open: CI pins one kibsu version, the Quickstart
+  installs whatever is newest, and no step compares what `report` prints with what the
+  README says it prints. Recorded in `docs/STATE.md` (TOOLING row).
+### Why it went stale, again
+- kibsu 0.10.0 was published on 2026-10-11 at 17:01 (+03). From that minute `kibsu>=0.9.0`
+  resolved to it. CI here was green on `kibsu==0.9.0` the whole time, for the reason the
+  previous entry gives: a pin proves the pinned version works and says nothing about the
+  current one.
+### How this was found
+- From outside again, and this time before any reader had to report it: kibsu's release
+  check installs the published package into an empty environment and runs it here. The lab
+  is also where the scorer's fault was first seen -- `kibsu explain` on
+  `skills/planner/SKILL.md` listed halves of sentences as separate instructions.
+### Verified (commands run on a fresh clone with kibsu 0.10.0 from PyPI, exit codes read)
+- `pip install "kibsu>=0.10.0"` into an empty environment -- installs 0.10.0.
+- `python tools/generate_data.py` -- exit 0.
+- `python tools/check_task.py --selftest` -- exit 0.
+- `python -m kibsu index .` -- exit 0, 17 docs.
+- `python tools/check_task.py T1` -- exit 1, as the Quickstart says of a pristine clone.
+- `python -m kibsu report .` -- exit 3; every line equal to the README block once the clone
+  path is substituted.
+- `python -m kibsu audit .` -- exit 0; table and headline equal to the README block.
+- `python -m kibsu check .` -- exit 0.
+- `python -m kibsu gate --check .`, `--status .`, `--baseline .` -- exit 2 each, unchanged.
+- `git status --porcelain` afterwards -- empty.
+
 ## [2026-10-11 10:07] - Baseline re-captured with kibsu 0.9.0; the pin and the README move together now
 ### Fixed
 - `README.md` Baseline -- the block was captured with kibsu 0.1.0 and had not been
