@@ -25,6 +25,12 @@ way a task's fix would be.
 ### Changed
 - `.github/workflows/lab-ci.yml` -- pin `kibsu==0.1.0` -> `kibsu==0.9.0`, and a comment on
   why the pin and the Baseline block must move in one commit.
+- `.github/workflows/lab-ci.yml` -- the checkout is a full clone now (`fetch-depth: 0`). The
+  default is depth 1, and on a shallow clone `kibsu report` rightly answers "shallow clone -
+  cannot tell" on its fourth question and prints `3 of 5`. So CI had always been green on a
+  different report than the Baseline's `4 of 5`, which is what a reader's own `git clone`
+  gives. Found by this change's own first CI run, which passed while printing a score the
+  README does not show; reproduced with `git clone --depth 1` before it was touched.
 - `PROVENANCE.md` -- dependency paragraph names 0.9.0.
 - `README.md` -- 53.7% -> 47.8% is recorded as the instrument moving, not this repository:
   no skill file changed; kibsu's scorer reads 46 procedure instructions here where the one
@@ -43,6 +49,9 @@ way a task's fix would be.
 ### Why CI never caught it
 - CI was pinned to the one kibsu version that still agreed with the README. A pin proves
   the pinned version works and says nothing about the current one. Every run was green.
+- And CI only requires `report` to exit 0 or 3. It never compared what `report` printed
+  with what this README says it prints, so a green run was never evidence about the block.
+  That comparison is still done by hand; a step that makes it mechanical is the open item.
 ### How this was found
 - From outside: kibsu's 2026-10-10 review installed its published package into an empty
   environment and followed this README from the top, comparing each printed line with the

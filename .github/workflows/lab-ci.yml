@@ -21,6 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # A full clone, because that is what the README's Quickstart gives a reader. The
+          # default (depth 1) makes `kibsu report` answer "shallow clone - cannot tell" on its
+          # fourth question and print 3 of 5 while README.md's Baseline says 4 of 5: this
+          # workflow was green on a different report than the one the page publishes.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
