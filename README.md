@@ -21,7 +21,7 @@ database. This lab teaches with tablets of its own.
 ```
 git clone <this-repo>
 cd kibsu-lab
-pip install "kibsu>=0.9.0"             # the only dependency -- everything else here is stdlib
+pip install "kibsu>=0.10.0"            # the only dependency -- everything else here is stdlib
 python tools/generate_data.py          # data/ is gitignored -- generate it yourself
 python -m kibsu index .                # builds .kibsu/index.json -- also gitignored, build it yourself
 ```
@@ -56,7 +56,7 @@ Every checker exits 1 on this pristine repo -- see `docs/STATE.md`. A checker th
 passes before the task is done proves nothing; that was verified, not assumed --
 see `docs/memory/learnings/`.
 
-## Baseline (after indexing; measured at this commit, kibsu 0.9.0 from PyPI)
+## Baseline (after indexing; measured at this commit, kibsu 0.10.0 from PyPI)
 
 Captured by literally running the Quickstart above, verbatim, against a fresh clone --
 `git clone`, `pip install`, `generate_data.py`, `kibsu index .`, then the two commands below.
@@ -67,8 +67,8 @@ cannot cite its own hash in advance. Run `git log -1 --oneline` on your clone to
 commit you're reading this block from.)
 
 The version in the heading is part of the claim. `.github/workflows/lab-ci.yml` pins the same
-one, and the two move together -- see "Why this block was re-captured" below for what happened
-when they did not.
+one, and the two move together -- see the two "Why this block was re-captured" sections below
+for what happened, twice, when they did not.
 
 ```
 python -m kibsu report .
@@ -80,8 +80,8 @@ python -m kibsu report .
   --------------------------------------------------------------------------
   +  Find your docs             17 docs, index present.
   +  Know your conventions      consistent frontmatter (type) - enforceable.
-  +  Prove they followed        47.8% of your procedural instructions are verifiable (above the 7.5% public median).
-  +  Resume after a break       all 3 promised artifacts exist.
+  +  Prove they followed        57.8% of your procedural instructions are verifiable (above the 7.6% public median).
+  +  Resume after a break       all 4 promised artifacts exist.
   ?  Follow your own rules      COULD NOT CHECK - .kibsu/index.json has never been committed (built locally, or gitignored), so there is no index history to replay.
                                 reads only, writes nothing:  git -C /path/to/kibsu-lab log --oneline -- .kibsu/index.json
   --------------------------------------------------------------------------
@@ -105,12 +105,12 @@ python -m kibsu audit .
 
 ```
   genre        units    instr    check   CHECK%   0-check
-  procedure        4       46       22    47.8%      0/4  
-  doctrine         2       18        0     0.0%      2/2  
+  procedure        4       45       26    57.8%      0/4  
+  doctrine         2       15        0     0.0%      2/2  
   --------------------------------------------------------
-  ALL              6       64       22    34.4%      2/6  
+  ALL              6       60       26    43.3%      2/6  
 
-  >> HEADLINE (procedure units only - the fair comparison): 47.8% checkable
+  >> HEADLINE (procedure units only - the fair comparison): 57.8% checkable
 
   genre declared in frontmatter: 6 unit(s), 0 disagreeing with detection
 ```
@@ -118,7 +118,42 @@ python -m kibsu audit .
 (An excerpt: the table and the headline. The command prints a version banner above them and
 the most claimable units below.)
 
-### Why this block was re-captured (2026-10-11)
+### Why this block was re-captured again (2026-10-11, kibsu 0.10.0)
+
+**47.8% became 57.8%, and that is the instrument moving again, not this repository.** Not one
+skill file changed. kibsu 0.10.0 carries a scorer (0.11.0) that counts sentences, where every
+scorer before it counted physical lines. This repository hard-wraps its prose, so one
+instruction used to be scored as two or three lines, and the tail of a sentence almost never
+names a command. Read as sentences, the same six files hold 45 procedure instructions instead
+of 46, and 26 of them are checkable instead of 22. Doctrine goes from 18 instructions to 15 and
+stays at 0.0%.
+
+A ten-point rise is exactly the kind of number this page warns about, so, plainly: **nothing
+here got better.** The rule further down still holds -- an improvement is measured against a
+fresh baseline, with the same kibsu version on both sides -- and this block is that fresh
+baseline. The public median the report compares against moved too, 7.5% to 7.6%: across
+kibsu's survey the line count had been too low for hard-wrapped files like these and too high
+for files written in long lines, and the two nearly cancel.
+
+This repository is where the fault was found. kibsu's `explain` command, pointed at
+`skills/planner/SKILL.md` here, listed five unverifiable "lines", and three of them were
+halves of sentences. It lists three whole sentences now (kibsu `CORRECTIONS.md`, 2026-10-11).
+
+**One line of the report block is the instrument talking.** `all 4 promised artifacts exist`
+read `all 3` under kibsu 0.9.0, and no skill here promises a new file. The fourth is the
+checklist line in `skills/planner/SKILL.md` that names `skills/change-log/SKILL.md`. Wrapped
+over two lines it was invisible; joined into one sentence it is read as a promise to produce
+that file -- because kibsu's test for "this sentence creates or updates a file" finds the word
+`log` inside the file's own name. kibsu's `CORRECTIONS.md` names that flaw and 0.10.0 does not
+fix it. The file exists, so the line stays a `+`, for a reason that is not the one it gives.
+
+**And this block was stale again, the same way.** The Quickstart said `kibsu>=0.9.0`, which
+became 0.10.0 the moment that release was published, so a reader following this page got
+57.8% beside a block that said 47.8% -- while CI stayed green on its pin of `kibsu==0.9.0`.
+The install line, the pin and this block move in one commit; a CI step that compares the
+block with what the tool prints is still the open item in `docs/STATE.md`.
+
+### Why this block was re-captured (2026-10-11, kibsu 0.9.0)
 
 **53.7% became 47.8%, and that is the instrument moving, not this repository.** Not one skill
 file changed between the two measurements. kibsu's scorer did: the one shipped in 0.1.0 read

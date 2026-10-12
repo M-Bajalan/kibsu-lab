@@ -46,9 +46,9 @@ These are not bugs in this repository; they are the point of it. See
 
 ## Dependency
 
-This repository depends on the `kibsu` package from PyPI (`kibsu>=0.9.0` in this
+This repository depends on the `kibsu` package from PyPI (`kibsu>=0.10.0` in this
 repo's own tooling notes; CI in `.github/workflows/lab-ci.yml` pins the exact
-version, `kibsu==0.9.0`, for reproducibility) to read and report on its own
+version, `kibsu==0.10.0`, for reproducibility) to read and report on its own
 governance -- `AGENTS.md`, `skills/`, `docs/`. kibsu-lab is that package's first
 real deployment outside its own source tree.
 
