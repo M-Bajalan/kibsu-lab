@@ -18,12 +18,12 @@ name what you'll verify afterward, in one line, before you touch anything.
 
 ## What this repo already gates, mechanically
 
-`python -m kibsu gate --check .` runs every command configured under `.kibsu.json`'s
+`python -m kibsu gate --check` runs every command configured under `.kibsu.json`'s
 `"gates"` key and blocks a commit only on a **NEW** violation -- never on the
 pre-existing baseline. Check what's wired and whether it's live:
 
 ```
-python -m kibsu gate --status .
+python -m kibsu gate --status
 ```
 
 Read `.kibsu.json` directly to see which commands are configured before assuming
@@ -37,11 +37,21 @@ python tools/reconcile.py
 ```
 
 Exit 0 = clean. Exit 1 = a real reconciliation mismatch -- do not commit past it
-silently; either it's a pre-existing accepted baseline violation (see
-`python -m kibsu gate --baseline .`) or it's new and must be fixed first. Exit 2 =
-could not run (data missing and could not be generated) -- this is
-`tools/reconcile.py`'s documented `cannot_run_exit`; a gate wired with that value
-skips the check rather than blocking, and says so on stderr.
+silently; either it's a pre-existing accepted baseline violation or it's new and must
+be fixed first. Exit 2 = could not run (data missing and could not be generated) --
+this is `tools/reconcile.py`'s documented `cannot_run_exit`; a gate wired with that
+value skips the check rather than blocking, and says so on stderr.
+
+To tell a pre-existing mismatch from a new one:
+
+```
+python -m kibsu gate --check
+```
+
+Exit 0 = everything `tools/reconcile.py` reports is already accepted in
+`.kibsu/gate_baseline.json`. Exit 1 = something is new, and the output names it. Never
+run `python -m kibsu gate --baseline` to settle the question: it does not show the
+baseline, it rewrites it to accept whatever is wrong right now.
 
 ## Task checkers are gates too
 
