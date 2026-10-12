@@ -8,6 +8,60 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-10-12 15:16] - The gate skill names commands that run, and no longer points at one that rewrites the baseline
+### Fixed
+- `skills/gate/SKILL.md` -- `python -m kibsu gate --check .` and `python -m kibsu gate
+  --status .` lose their trailing dot. With it, kibsu rejected both with exit 2,
+  `unrecognized arguments: .`, on every version from 0.1.0 to 0.10.0. Without it both exit 0
+  and write nothing.
+- `skills/gate/SKILL.md` -- the sentence that said a reconciliation mismatch might be "a
+  pre-existing accepted baseline violation (see `python -m kibsu gate --baseline .`)" no
+  longer points there. Without its dot that command does not show the baseline: it rewrites
+  `.kibsu/gate_baseline.json` to accept whatever the gates report right now. The skill now
+  points to `python -m kibsu gate --check` (exit 0 = everything reported is already
+  accepted, exit 1 = something is new and is named) and says in so many words never to run
+  `--baseline` to settle the question.
+### Changed
+- `README.md` Baseline -- re-captured: `19 docs` -> `21 docs` (this change's plan and its
+  learning), and procedure 45 / 26 / 57.8% -> 46 / 27 / 58.7%, ALL 60 / 26 / 43.3% ->
+  61 / 27 / 44.3%. **The repository moved, not the instrument**: kibsu 0.10.0 before and
+  after. A new section says why the rise must not be read as the improvement.
+- `docs/STATE.md` SKILLS row -- the known defect is closed; the next action is the rule for
+  any further skill edit.
+### Added
+- `docs/plans/2026-10-12-gate-skill-commands.md` -- the plan, with the audit taken before the
+  edit and the prediction for the audit after it.
+- `docs/memory/learnings/find-out-what-a-dead-command-does-before-reviving-it.md`.
+### What the number did, and what it did not see
+- Before the edit (commit `afa7381`, kibsu 0.10.0): gate 12 instructions, 10 checkable;
+  procedure 26 of 45, 57.8%. After: gate 13 and 11; procedure 27 of 46, 58.7%. Predicted in
+  the plan before it was measured, and it came out as predicted. No other unit moved.
+- The one sentence the scorer newly counts as checkable is a prohibition. It names a
+  command in order to forbid it.
+- Two of the gate unit's ten checkable verdicts had rested on commands that exited 2. They
+  scored the same broken as fixed. The score counts a command that is named, not one that
+  works -- so the change that mattered here is not in any figure on the README.
+### Found, not fixed here
+- In kibsu itself: `gate --install` and `--uninstall` write only with `--apply`, while
+  `gate --baseline` writes at once, with no dry run. That asymmetry is what made the skill's
+  "see ..." so easy to believe. It belongs to kibsu, not to this repository.
+- Every other command this repository's files name was run in a scratch clone; none has an
+  argument error. `python -m kibsu discover .` exits 1 on a pristine clone by design (it
+  reports the reconcile and sales-report scripts as named but not run by any automation).
+### Verified (kibsu 0.10.0 from PyPI, exit codes read)
+- In a throwaway clone, as written before the fix: `gate --check .`, `--status .`,
+  `--baseline .` -- exit 2 each, nothing written.
+- Without the dot: `gate --check` -- exit 0, nothing written. `gate --status` -- exit 0,
+  nothing written. `gate --baseline` -- exit 0, and `.kibsu/gate_baseline.json` modified.
+- With one accepted violation removed from the baseline (scratch only): `gate --check` --
+  exit 1, `1 NEW violation(s) not in the accepted baseline`. Then `gate --baseline`, then
+  `gate --check` again -- exit 0: the new violation had been accepted. That is the door.
+- After the edit, in this working copy: `gate --check` -- exit 0; `gate --status` -- exit 0;
+  `git status` unchanged by running them; `.kibsu/gate_baseline.json` byte-identical to HEAD.
+- `python tools/check_baseline.py` -- exit 1 before the re-capture (five lines), exit 0 after.
+- `python -m kibsu audit .` -- `0 disagreeing with detection`. `python -m kibsu check .` --
+  exit 0.
+
 ## [2026-10-12 10:10] - The README's Baseline is checked now: a command compares it with what kibsu prints, and CI runs it daily
 ### Added
 - `tools/check_baseline.py` -- compares both Baseline blocks in `README.md` with what

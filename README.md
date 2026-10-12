@@ -85,9 +85,9 @@ python -m kibsu report .
   WHAT YOUR AGENTS CANNOT DO HERE YET
   /path/to/kibsu-lab
   --------------------------------------------------------------------------
-  +  Find your docs             19 docs, index present.
+  +  Find your docs             21 docs, index present.
   +  Know your conventions      consistent frontmatter (type) - enforceable.
-  +  Prove they followed        57.8% of your procedural instructions are verifiable (above the 7.6% public median).
+  +  Prove they followed        58.7% of your procedural instructions are verifiable (above the 7.6% public median).
   +  Resume after a break       all 4 promised artifacts exist.
   ?  Follow your own rules      COULD NOT CHECK - .kibsu/index.json has never been committed (built locally, or gitignored), so there is no index history to replay.
                                 reads only, writes nothing:  git -C /path/to/kibsu-lab log --oneline -- .kibsu/index.json
@@ -112,18 +112,43 @@ python -m kibsu audit .
 
 ```
   genre        units    instr    check   CHECK%   0-check
-  procedure        4       45       26    57.8%      0/4  
+  procedure        4       46       27    58.7%      0/4  
   doctrine         2       15        0     0.0%      2/2  
   --------------------------------------------------------
-  ALL              6       60       26    43.3%      2/6  
+  ALL              6       61       27    44.3%      2/6  
 
-  >> HEADLINE (procedure units only - the fair comparison): 57.8% checkable
+  >> HEADLINE (procedure units only - the fair comparison): 58.7% checkable
 
   genre declared in frontmatter: 6 unit(s), 0 disagreeing with detection
 ```
 
 (An excerpt: the table and the headline. The command prints a version banner above them and
 the most claimable units below.)
+
+### Why this block moved on 2026-10-12: a skill was edited, and the rise is not the improvement
+
+**57.8% became 58.7%, and this time the repository moved, not the instrument.** kibsu 0.10.0
+on both sides, measured immediately before and after the edit -- the first before/after on
+this page that the rule further down allows. `skills/gate/SKILL.md` named three commands
+that had never run (`kibsu gate --check .`, `--status .`, `--baseline .`: exit 2,
+`unrecognized arguments: .`). They are fixed. The gate unit reads 13 instructions and 11
+checkable where it read 12 and 10; nothing else moved.
+
+**Do not read that point as the improvement.** The sentence that was added is a prohibition
+-- never run `kibsu gate --baseline` to settle whether a mismatch is new -- and the scorer
+counts it as checkable because it names a command. What actually got better is invisible to
+the number: two of the gate unit's ten "checkable" verdicts had rested on commands that
+exited 2, and they scored exactly the same broken as they do fixed.
+
+And the obvious fix would have made things worse. Without its dot, `kibsu gate --baseline`
+does not show the accepted baseline; it rewrites it to accept whatever is wrong right now --
+and the skill pointed an agent to it at the moment a reconciliation mismatch had to be judged
+new or old. The typo had been holding that door shut. The sentence now points to
+`kibsu gate --check`, which only reads. The account is in
+`docs/memory/learnings/find-out-what-a-dead-command-does-before-reviving-it.md`.
+
+The first line of the report block moved as well, `19 docs` to `21 docs`: this change's plan
+and its learning.
 
 ### Why this block was re-captured again (2026-10-11, kibsu 0.10.0)
 
