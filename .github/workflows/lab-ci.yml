@@ -10,13 +10,38 @@ name: lab-ci
 # one version that still agreed with the README -- a pin proves the pinned version works, and
 # says nothing about the current one. It happened a second time within a day: kibsu 0.10.0
 # changed what the scorer counts, the README's `kibsu>=0.9.0` started installing it, and this
-# workflow stayed green on ==0.9.0. docs/STATE.md's TOOLING row carries the next action.
+# workflow stayed green on ==0.9.0.
+#
+# So there are two jobs now, because the page can go stale from two directions:
+#
+#   lab-ci                  the PINNED kibsu. Catches THIS REPOSITORY moving -- a doc added, a
+#                           skill edited -- without the Baseline being re-captured.
+#   quickstart-as-written   kibsu installed by the README's own install line, whatever that
+#                           resolves to today. Catches THE INSTRUMENT moving: a new kibsu
+#                           release that prints something else. It also runs every day,
+#                           because a kibsu release pushes nothing here and no other event
+#                           would start a run.
+#
+# Both end in tools/check_baseline.py, which compares the README's two blocks with what the
+# tool prints, line for line. Read a red run like this: quickstart-as-written red with lab-ci
+# green means kibsu moved -- re-capture the block and move the pin and the install line in
+# one commit (docs/STATE.md, TOOLING row). lab-ci red means this repository moved.
+#
+# Honest limit: GitHub switches a scheduled workflow off after 60 days without activity in a
+# public repository. A repository nobody touches stops being watched.
 
 on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  schedule:
+    - cron: "23 4 * * *"      # daily at 04:23 UTC -- an odd minute, off the top of the hour
+  workflow_dispatch:
+
+# Both jobs only read: they check out, install from PyPI and run local commands.
+permissions:
+  contents: read
 
 jobs:
   lab-ci:
@@ -63,3 +88,42 @@ jobs:
 
       - name: kibsu check
         run: python -m kibsu check .
+
+      - name: Baseline check -- selftest (the comparison must be able to fail)
+        run: python tools/check_baseline.py --selftest
+
+      - name: README Baseline equals what the pinned kibsu prints
+        run: python tools/check_baseline.py
+
+  quickstart-as-written:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # as above: the Baseline is a full clone's
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The requirement is read out of README.md, not written here a second time: the point
+      # of this job is to install what the page tells a reader to install. Only the
+      # requirement is taken from the page (the checker accepts nothing but kibsu>=X.Y.Z);
+      # the command around it is fixed.
+      - name: Install kibsu the way the README tells a reader to
+        run: |
+          spec="$(python tools/check_baseline.py --install-spec)"
+          echo "README Quickstart installs: $spec"
+          pip install "$spec"
+
+      - name: Record the PyPI version that resolved to today
+        run: pip show kibsu
+
+      - name: Generate the seeded dataset
+        run: python tools/generate_data.py
+
+      - name: kibsu index
+        run: python -m kibsu index .
+
+      - name: README Baseline equals what a reader gets today
+        run: python tools/check_baseline.py

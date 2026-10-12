@@ -70,6 +70,13 @@ The version in the heading is part of the claim. `.github/workflows/lab-ci.yml` 
 one, and the two move together -- see the two "Why this block was re-captured" sections below
 for what happened, twice, when they did not.
 
+**The block is checked, not trusted.** `python tools/check_baseline.py` compares both blocks
+below with what the tool prints, line for line, and exits 1 when they differ. CI runs it
+twice: with the pinned kibsu, and after installing kibsu with the Quickstart's own install
+line -- that second run also happens every day, because a new kibsu release pushes nothing
+here. If you add a document or edit a skill, these numbers move: `git add` your files first
+(the tool only counts files git knows), run the check, and re-capture the block if it fails.
+
 ```
 python -m kibsu report .
 ```
@@ -78,7 +85,7 @@ python -m kibsu report .
   WHAT YOUR AGENTS CANNOT DO HERE YET
   /path/to/kibsu-lab
   --------------------------------------------------------------------------
-  +  Find your docs             17 docs, index present.
+  +  Find your docs             19 docs, index present.
   +  Know your conventions      consistent frontmatter (type) - enforceable.
   +  Prove they followed        57.8% of your procedural instructions are verifiable (above the 7.6% public median).
   +  Resume after a break       all 4 promised artifacts exist.
@@ -150,8 +157,9 @@ fix it. The file exists, so the line stays a `+`, for a reason that is not the o
 **And this block was stale again, the same way.** The Quickstart said `kibsu>=0.9.0`, which
 became 0.10.0 the moment that release was published, so a reader following this page got
 57.8% beside a block that said 47.8% -- while CI stayed green on its pin of `kibsu==0.9.0`.
-The install line, the pin and this block move in one commit; a CI step that compares the
-block with what the tool prints is still the open item in `docs/STATE.md`.
+The install line, the pin and this block move in one commit. The comparison that was missing
+both times exists since 2026-10-12: `tools/check_baseline.py`, run by CI against the pinned
+version and, daily, against whatever the install line resolves to.
 
 ### Why this block was re-captured (2026-10-11, kibsu 0.9.0)
 
