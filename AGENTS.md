@@ -69,6 +69,11 @@ is fine too.
 `tools/reconcile.py`. This repo depends on the `kibsu` package (PyPI) to read its
 own governance; see `README.md` for the version pin.
 
+`README.md` publishes what kibsu prints here, and `python tools/check_baseline.py` proves
+it still does (exit 0 = the page is right, 1 = it is not, 2 = could not run). Adding a
+document or editing a skill moves those numbers. `git add` your files first -- the tool
+counts only what git knows -- then run it, and re-capture the block if it fails.
+
 ## Provenance
 
 `PROVENANCE.md` -- every name, company, and row of data here is fictional and

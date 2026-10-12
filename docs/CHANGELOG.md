@@ -8,6 +8,68 @@ kibsu-lab practices its own log chain from birth (`skills/change-log/SKILL.md`) 
 every phase of this repository's own build is logged here, newest first, the same
 way a task's fix would be.
 
+## [2026-10-12 10:10] - The README's Baseline is checked now: a command compares it with what kibsu prints, and CI runs it daily
+### Added
+- `tools/check_baseline.py` -- compares both Baseline blocks in `README.md` with what
+  `python -m kibsu report .` and `python -m kibsu audit .` print on this clone, line for
+  line, and checks that the kibsu version is stated the same in three places (the Baseline
+  heading, the Quickstart's install line, the CI pin). Exit 0 = the page is right, 1 = it is
+  not, with both sides printed, 2 = could not run. `--selftest` makes the comparison fail on
+  purpose in eight ways and needs no kibsu. `--install-spec` prints the requirement the
+  Quickstart installs.
+- `.github/workflows/lab-ci.yml` -- a second job, `quickstart-as-written`. It installs kibsu
+  with the README's own install line, read out of the page rather than written a second
+  time, runs the Quickstart, then the check. A daily schedule and a manual trigger are added,
+  because a kibsu release pushes nothing to this repository.
+- `docs/plans/2026-10-12-baseline-check.md` -- the plan for this change, the first one in
+  `docs/plans/`. It records where its own prediction was wrong.
+- `docs/memory/learnings/untracked-docs-are-invisible-to-the-index.md` -- the lesson below.
+### Changed
+- `.github/workflows/lab-ci.yml`, job `lab-ci` -- ends with the selftest and the check, so a
+  doc added or a skill edited without re-capturing the block turns the pinned run red. The
+  workflow now declares `permissions: contents: read`; both jobs only read.
+- `README.md` Baseline -- `17 docs` -> `19 docs`: this change adds two documents (the plan
+  and the learning). The repository moved here, not the instrument. Every other line of
+  both blocks is unchanged.
+- `README.md` -- a paragraph beside the block says how it is checked, and the 2026-10-11
+  section no longer calls the comparison an open item.
+- `AGENTS.md` -- one pointer under Tooling config: the check exists, and adding a document
+  or editing a skill moves the numbers it guards.
+- `docs/STATE.md` TOOLING row -- the open item is closed; the next action now says what a
+  red run of each job means.
+### Learned while building it
+- The checker's first real run was predicted to fail and passed. The plan file was already
+  an eighteenth document, the page said seventeen, and the command exited 0. kibsu builds
+  its index from `git ls-files`, and the new file had not been added to git, so for the tool
+  it did not exist. After `git add` the same command exited 1 on exactly the predicted line.
+  A check run before `git add` passes for the wrong reason, so the checker now names every
+  untracked Markdown file and says its verdict does not cover them.
+### Not verified here
+- Whether the two jobs run and pass on GitHub: the first run on the pull request is the
+  proof, and it wants a human read.
+- A scheduled run. None has happened yet. GitHub also switches a scheduled workflow off
+  after 60 days without activity in the repository, so a quiet repository stops being
+  watched.
+- Neither job is a required check. A red run informs; it does not block a merge.
+### Why two jobs
+- The page can go stale from two directions. This repository can move under it (the pinned
+  job sees that). Or kibsu can move under it: the Quickstart installs `kibsu>=0.10.0`, CI
+  pins `==0.10.0`, and the day a newer release prints something else the pinned job stays
+  green while every reader gets a different page. That is what happened on 2026-10-11, and
+  only a job that installs what the page tells a reader to install can see it.
+### Verified (kibsu 0.10.0 from PyPI unless stated, exit codes read)
+- `python tools/check_baseline.py --selftest` -- exit 0, eight controls.
+- `python tools/check_baseline.py` with the plan file untracked -- exit 0 (the finding above).
+- The same after `git add` of the plan -- exit 1, `17 docs` against `18 docs`.
+- The same with the learning also added -- exit 1, `17 docs` against `19 docs`.
+- The same after re-capturing the block -- exit 0.
+- The same under kibsu 0.9.0 -- exit 1, six lines differ, and the output names both versions.
+- `python tools/check_baseline.py --install-spec` -- prints `kibsu>=0.10.0`, exit 0.
+- The workflow file parses as YAML: two jobs, each ending in the check; one pinned install.
+- `python -m kibsu audit .` -- 45 instructions, 26 checkable, 57.8% for procedure: no skill
+  file is touched, and no audit figure moved.
+- `python -m kibsu check .` -- exit 0.
+
 ## [2026-10-11 17:15] - Baseline re-captured with kibsu 0.10.0: the scorer counts sentences now, and the page went stale the minute it shipped
 ### Fixed
 - `README.md` Baseline -- re-captured with kibsu 0.10.0 from PyPI on a fresh clone. The report
